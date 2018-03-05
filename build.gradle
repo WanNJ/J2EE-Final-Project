@@ -25,8 +25,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    // View engine.
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    // Provides "auto-restart", "live-reload" "property-defaults", etc.
     compile("org.springframework.boot:spring-boot-devtools")
+    // Test configs.
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
