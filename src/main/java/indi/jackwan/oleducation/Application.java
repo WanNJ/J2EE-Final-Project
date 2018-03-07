@@ -1,4 +1,5 @@
-package hello;
+// The recommended practice is to put every file under a root package.
+package oleducation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

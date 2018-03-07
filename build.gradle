@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE")
     }
 }
 
@@ -11,9 +11,11 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
 
 jar {
-    baseName = 'gs-serving-web-content'
+    baseName = 'oleducation'
     version =  '0.1.0'
 }
 
@@ -25,10 +27,22 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+
     // View engine.
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
     // Provides "auto-restart", "live-reload" "property-defaults", etc.
     compile("org.springframework.boot:spring-boot-devtools")
+
+    // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Use MySQL Connector-J
+    compile 'mysql:mysql-connector-java'
+
+    // Mail service.
+    compile("org.springframework.boot:spring-boot-starter-mail")
+
     // Test configs.
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
