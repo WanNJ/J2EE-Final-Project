@@ -27,13 +27,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-
     // View engine.
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     // Provides "auto-restart", "live-reload" "property-defaults", etc.
     compile("org.springframework.boot:spring-boot-devtools")
+
+    compile("org.springframework.boot:spring-boot-starter-web")
 
     // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -42,6 +42,15 @@ dependencies {
 
     // Mail service.
     compile("org.springframework.boot:spring-boot-starter-mail")
+
+    // Tools such as password encryption.
+    compile("org.springframework.security:spring-security-core")
+
+    compile group: 'org.springframework', name: 'spring-beans', version:'5.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'1.5.3.RELEASE'
+
+    compile("com.nulab-inc:zxcvbn:1.2.3")
+    compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
 
     // Test configs.
     testCompile("org.springframework.boot:spring-boot-starter-test")
