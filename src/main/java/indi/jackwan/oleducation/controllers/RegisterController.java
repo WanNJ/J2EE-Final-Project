@@ -34,15 +34,14 @@ public class RegisterController {
     private EmailService emailService;
 
 
-    @RequestMapping(path="/register", method= RequestMethod.GET)
-    public ModelAndView showRegistrationPage(ModelAndView modelAndView,
-                                             @RequestParam(value="name", required=false, defaultValue="World") String name){
-        modelAndView.addObject("name", name);
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user) {
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("register");
         return modelAndView;
     }
 
-    @RequestMapping(value="/register", method=RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
 
         // Lookup user in database by e-mail
@@ -87,7 +86,7 @@ public class RegisterController {
     }
 
     // Process confirmation link
-    @RequestMapping(value="/confirm", method = RequestMethod.GET)
+    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     public ModelAndView confirmRegistration(ModelAndView modelAndView, @RequestParam("token") String token) {
 
         User user = userService.findByConfirmationToken(token);
@@ -103,7 +102,7 @@ public class RegisterController {
     }
 
     // Process confirmation link
-    @RequestMapping(value="/confirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     public ModelAndView confirmRegistration(ModelAndView modelAndView, BindingResult bindingResult, @RequestParam Map<String, String> requestParams, RedirectAttributes redir) {
 
         modelAndView.setViewName("confirm");
