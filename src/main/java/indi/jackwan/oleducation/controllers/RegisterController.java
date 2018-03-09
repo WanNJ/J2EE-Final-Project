@@ -72,9 +72,9 @@ public class RegisterController {
             SimpleMailMessage registrationEmail = new SimpleMailMessage();
             registrationEmail.setTo(user.getEmail());
             registrationEmail.setSubject("Registration Confirmation");
-            registrationEmail.setText("To confirm your e-mail address, please click the link below:\n"
+            registrationEmail.setText("Thank you for your choice of our service. To confirm your e-mail address, please click the link below:\n"
                     + appUrl + "/confirm?token=" + user.getConfirmationToken());
-            registrationEmail.setFrom("noreply@domain.com");
+            registrationEmail.setFrom("omyjackwan@qq.com");
 
             emailService.sendEmail(registrationEmail);
 
