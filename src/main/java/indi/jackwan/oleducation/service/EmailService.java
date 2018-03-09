@@ -15,7 +15,8 @@ public class EmailService {
 	public EmailService(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 	}
-	
+
+	// The calling code doesn't have to wait for the send operation to complete in order to continue
 	@Async
 	public void sendEmail(SimpleMailMessage email) {
 		mailSender.send(email);
