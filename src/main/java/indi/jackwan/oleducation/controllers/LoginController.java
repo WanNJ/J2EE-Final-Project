@@ -25,9 +25,15 @@ public class LoginController {
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String processLoginForm(Model model, User user) {
         //TODO To figure it out
-        boolean match = bCryptPasswordEncoder.matches(user.getPassword(), userService.findByEmail(user.getEmail()).getPassword());
+        User trueUser = userService.findByEmail(user.getEmail());
+        boolean match = bCryptPasswordEncoder.matches(user.getPassword(), trueUser.getPassword());
         if(match) {
-            return "redirect:user";
+            if (trueUser.getEnabled()) {
+                return "redirect:user";
+            } else {
+                model.addAttribute("normalErrorMessage", "Please activate your account first!");
+                return "login";
+            }
         } else {
             model.addAttribute("normalErrorMessage", "Wrong password!");
             return "login";
