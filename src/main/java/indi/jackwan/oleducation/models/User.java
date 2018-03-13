@@ -26,6 +26,8 @@ public class User {
 
     private boolean enabled;
 
+    private boolean isVip;
+
     private String confirmationToken;
 
     public Integer getId() { return id; }
@@ -63,4 +65,9 @@ public class User {
     public void setConfirmationToken(String confirmationToken) {
         this.confirmationToken = confirmationToken;
     }
+
+    public boolean isVip() { return isVip; }
+
+    public void setVip(boolean vip) { isVip = vip; }
+
 }

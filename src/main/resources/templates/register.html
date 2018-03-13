@@ -27,11 +27,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link th:href="@{css/style.css}" rel="stylesheet">
+    <link th:href="@{css/signInStyle.css}" rel="stylesheet">
 </head>
 
 <body>
-<form class="form-user" id="registerForm" autocomplete="off" th:action="@{/register}"
+<form class="form-user" id="registerForm" autocomplete="on" th:action="@{/register}"
       th:object="${user}" method="post" role="form"
       data-toggle="validator">
 
@@ -42,6 +42,11 @@
         <p>Your best choice of online education.<br> If this page does not show normally, please use the <b>latest
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
+
+    <!--/*@thymesVar id="normalErrorMessage" type="templates"*/-->
+    <div th:if="${normalErrorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${normalErrorMessage}"></div>
 
     <div th:if="${confirmationMessage}" class="alert alert-success"
          role="alert" th:text="${confirmationMessage}"></div>
@@ -97,6 +102,8 @@
     function validatePassword() {
         if (password.value !== confirm_password.value) {
             confirm_password.setCustomValidity("Passwords Don't Match.");
+        } else {
+            confirm_password.setCustomValidity('');
         }
     }
 

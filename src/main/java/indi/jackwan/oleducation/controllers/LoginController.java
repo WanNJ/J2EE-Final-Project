@@ -5,9 +5,9 @@ import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
@@ -17,9 +17,8 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user) {
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("login");
-        return modelAndView;
+    public String showRegistrationPage(Model model, User user) {
+        model.addAttribute("user", user);
+        return "login";
     }
 }
