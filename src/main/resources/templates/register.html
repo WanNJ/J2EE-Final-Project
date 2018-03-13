@@ -31,7 +31,7 @@
 </head>
 
 <body>
-<form class="form-user" id="registerForm" autocomplete="off" th:action="@{/register}"
+<form class="form-user" id="registerForm" autocomplete="on" th:action="@{/register}"
       th:object="${user}" method="post" role="form"
       data-toggle="validator">
 
@@ -43,6 +43,7 @@
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
 
+    <!--/*@thymesVar id="normalErrorMessage" type="templates"*/-->
     <div th:if="${normalErrorMessage}"
          class="alert alert-danger" role="alert"
          th:text="${normalErrorMessage}"></div>

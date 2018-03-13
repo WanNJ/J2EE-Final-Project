@@ -6,11 +6,11 @@ import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nulabinc.zxcvbn.Strength;
@@ -33,44 +33,38 @@ public class RegisterController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user) {
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("register");
-        return modelAndView;
+    public String showRegistrationPage(Model model, User user) {
+        model.addAttribute("user", user);
+        return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redir) {
-
-        // Lookup user in database by e-mail
+    public String processRegistrationForm(Model model, @Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redir) {
         User userExists = userService.findByEmail(user.getEmail());
 
-        System.out.println(userExists);
-
         if (userExists != null) {
-            modelAndView.addObject("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
-            modelAndView.setViewName("register");
+            model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
             bindingResult.reject("email");
+            return "register";
         }
 
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("register");
+            return "register";
         } else { // new user so we create user and send confirmation e-mail
             Zxcvbn passwordCheck = new Zxcvbn();
 
             Strength strength = passwordCheck.measure(user.getPassword());
 
             if (strength.getScore() < 3) {
-                //modelAndView.addObject("errorMessage", "Your password is too weak.  Choose a stronger one.");
                 bindingResult.reject("password");
 
-                redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
+                // Flash attributes only exist for one redirect.
+                redir.addFlashAttribute("normalErrorMessage", "Your password is too weak.  Choose a stronger one.");
 
-                modelAndView.setViewName("redirect:register");
-                return modelAndView;
+                return "redirect:register";
             }
 
-            // Set bCrpyted Password
+            // Set bCrpyted Password to improve security
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
             // Disable user until they click on confirmation link in email
@@ -86,33 +80,27 @@ public class RegisterController {
 
             emailService.sendConfirmationEmail(confirmationUrl, user);
 
-            modelAndView.addObject("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
-            modelAndView.setViewName("register");
+            model.addAttribute("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
+            return "register";
         }
-
-        return modelAndView;
     }
 
     // Process confirmation link
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public ModelAndView confirmRegistration(ModelAndView modelAndView, @RequestParam("token") String token) {
+    public String confirmRegistration(Model model, @RequestParam("token") String token) {
 
         User user = userService.findByConfirmationToken(token);
 
         if (user == null) { // No token found in DB
-            modelAndView.addObject("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
-            modelAndView.setViewName("redirect:register");
+            model.addAttribute("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
+            return "redirect:register";
         } else { // Token found
-            // Set user to enabled
             user.setEnabled(true);
 
-            // Save user
             userService.saveUser(user);
 
-            modelAndView.addObject("successMessage", "Your account has been activated!");
-            modelAndView.setViewName("redirect:user");
+            model.addAttribute("successMessage", "Your account has been activated!");
+            return "redirect:user";
         }
-
-        return modelAndView;
     }
 }
