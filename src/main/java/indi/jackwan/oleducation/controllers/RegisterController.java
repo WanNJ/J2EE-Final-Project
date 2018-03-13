@@ -42,6 +42,7 @@ public class RegisterController {
     public String processRegistrationForm(Model model, @Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redir) {
         User userExists = userService.findByEmail(user.getEmail());
 
+        // In case that one's account is registered by someone unknown
         if (userExists != null) {
             model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
             bindingResult.reject("email");
