@@ -43,6 +43,10 @@
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
 
+    <div th:if="${normalErrorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${normalErrorMessage}"></div>
+
     <div th:if="${confirmationMessage}" class="alert alert-success"
          role="alert" th:text="${confirmationMessage}"></div>
 

@@ -4,7 +4,6 @@ import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.service.EmailService;
 import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -19,7 +18,6 @@ import com.nulabinc.zxcvbn.Zxcvbn;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Map;
 import java.util.UUID;
 
 
@@ -42,7 +40,7 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult, HttpServletRequest request) {
+    public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redir) {
 
         // Lookup user in database by e-mail
         User userExists = userService.findByEmail(user.getEmail());
@@ -58,6 +56,22 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("register");
         } else { // new user so we create user and send confirmation e-mail
+            Zxcvbn passwordCheck = new Zxcvbn();
+
+            Strength strength = passwordCheck.measure(user.getPassword());
+
+            if (strength.getScore() < 3) {
+                //modelAndView.addObject("errorMessage", "Your password is too weak.  Choose a stronger one.");
+                bindingResult.reject("password");
+
+                redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
+
+                modelAndView.setViewName("redirect:register");
+                return modelAndView;
+            }
+
+            // Set bCrpyted Password
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
             // Disable user until they click on confirmation link in email
             user.setEnabled(false);
@@ -67,16 +81,10 @@ public class RegisterController {
 
             userService.saveUser(user);
 
-            String appUrl = request.getScheme() + "://" + request.getServerName();
+            String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            String confirmationUrl = appUrl + "/confirm?token=" + user.getConfirmationToken();
 
-            SimpleMailMessage registrationEmail = new SimpleMailMessage();
-            registrationEmail.setTo(user.getEmail());
-            registrationEmail.setSubject("Registration Confirmation");
-            registrationEmail.setText("Thank you for your choice of our service. To confirm your e-mail address, please click the link below:\n"
-                    + appUrl + "/confirm?token=" + user.getConfirmationToken());
-            registrationEmail.setFrom("omyjackwan@qq.com");
-
-            emailService.sendEmail(registrationEmail);
+            emailService.sendConfirmationEmail(confirmationUrl, user);
 
             modelAndView.addObject("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
             modelAndView.setViewName("register");
@@ -92,49 +100,19 @@ public class RegisterController {
         User user = userService.findByConfirmationToken(token);
 
         if (user == null) { // No token found in DB
-            modelAndView.addObject("invalidToken", "Oops!  This is an invalid confirmation link.");
+            modelAndView.addObject("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
+            modelAndView.setViewName("redirect:register");
         } else { // Token found
-            modelAndView.addObject("confirmationToken", user.getConfirmationToken());
+            // Set user to enabled
+            user.setEnabled(true);
+
+            // Save user
+            userService.saveUser(user);
+
+            modelAndView.addObject("successMessage", "Your account has been activated!");
+            modelAndView.setViewName("redirect:user");
         }
 
-        modelAndView.setViewName("confirm");
-        return modelAndView;
-    }
-
-    // Process confirmation link
-    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public ModelAndView confirmRegistration(ModelAndView modelAndView, BindingResult bindingResult, @RequestParam Map<String, String> requestParams, RedirectAttributes redir) {
-
-        modelAndView.setViewName("confirm");
-
-        Zxcvbn passwordCheck = new Zxcvbn();
-
-        Strength strength = passwordCheck.measure(requestParams.get("password"));
-
-        if (strength.getScore() < 3) {
-            //modelAndView.addObject("errorMessage", "Your password is too weak.  Choose a stronger one.");
-            bindingResult.reject("password");
-
-            redir.addFlashAttribute("errorMessage", "Your password is too weak.  Choose a stronger one.");
-
-            modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-            System.out.println(requestParams.get("token"));
-            return modelAndView;
-        }
-
-        // Find the user associated with the reset token
-        User user = userService.findByConfirmationToken(requestParams.get("token"));
-
-        // Set new password
-        user.setPassword(bCryptPasswordEncoder.encode(requestParams.get("password")));
-
-        // Set user to enabled
-        user.setEnabled(true);
-
-        // Save user
-        userService.saveUser(user);
-
-        modelAndView.addObject("successMessage", "Your password has been set!");
         return modelAndView;
     }
 }
