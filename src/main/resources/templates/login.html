@@ -30,7 +30,7 @@
 </head>
 
 <body>
-<form class="form-user" id="signinForm" autocomplete="off" th:action="@{/login}"
+<form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login}"
       th:object="${user}" method="post" role="form" data-toggle="validator">
     <div class="text-center mb-4">
         <!--suppress RequiredAttributes -->
@@ -39,6 +39,11 @@
         <p>Your best choice of online education.<br> If this page does not show normally, please use the <b>latest
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
+
+    <!--/*@thymesVar id="normalErrorMessage" type="templates"*/-->
+    <div th:if="${normalErrorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${normalErrorMessage}"></div>
 
     <div class="form-label-group">
         <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email address"

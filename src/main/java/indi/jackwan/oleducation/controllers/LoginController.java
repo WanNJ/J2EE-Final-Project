@@ -21,4 +21,16 @@ public class LoginController {
         model.addAttribute("user", user);
         return "login";
     }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String processLoginForm(Model model, User user) {
+        //TODO To figure it out
+        boolean match = bCryptPasswordEncoder.matches(user.getPassword(), userService.findByEmail(user.getEmail()).getPassword());
+        if(match) {
+            return "redirect:user";
+        } else {
+            model.addAttribute("normalErrorMessage", "Wrong password!");
+            return "login";
+        }
+    }
 }
