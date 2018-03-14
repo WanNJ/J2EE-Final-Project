@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
     @Autowired
@@ -24,8 +26,8 @@ public class LoginController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public String processLoginForm(Model model, User user) {
-        //TODO To figure it out
         User trueUser = userService.findByEmail(user.getEmail());
+        // You should not encrypt the raw password yourself.
         boolean match = bCryptPasswordEncoder.matches(user.getPassword(), trueUser.getPassword());
         if(match) {
             if (trueUser.getEnabled()) {
@@ -38,5 +40,11 @@ public class LoginController {
             model.addAttribute("normalErrorMessage", "Wrong password!");
             return "login";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session ) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }
