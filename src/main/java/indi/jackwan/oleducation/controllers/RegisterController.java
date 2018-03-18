@@ -17,6 +17,7 @@ import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.UUID;
 
@@ -62,7 +63,7 @@ public class RegisterController {
                 // Flash attributes only exist for one redirect.
                 redir.addFlashAttribute("normalErrorMessage", "Your password is too weak.  Choose a stronger one.");
 
-                return "redirect:register";
+                return "redirect:/register";
             }
 
             // Set bCrpyted Password to improve security
@@ -88,20 +89,21 @@ public class RegisterController {
 
     // Process confirmation link
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirmRegistration(Model model, @RequestParam("token") String token) {
+    public String confirmRegistration(Model model, @RequestParam("token") String token, RedirectAttributes redir, HttpSession session) {
 
         User user = userService.findByConfirmationToken(token);
 
         if (user == null) { // No token found in DB
-            model.addAttribute("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
-            return "redirect:register";
+            redir.addFlashAttribute("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
+            return "redirect:/register";
         } else { // Token found
             user.setEnabled(true);
-
             userService.saveUser(user);
 
-            model.addAttribute("successMessage", "Your account has been activated!");
-            return "redirect:user";
+            session.setAttribute("user", user);
+
+            redir.addFlashAttribute("successMessage", "Your account has been activated!");
+            return "redirect:/user";
         }
     }
 }

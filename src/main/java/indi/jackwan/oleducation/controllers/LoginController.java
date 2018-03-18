@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,19 +21,27 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showRegistrationPage(Model model, User user) {
+    public String showRegistrationPage(Model model, User user, @RequestParam String message) {
         model.addAttribute("user", user);
         return "login";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String processLoginForm(Model model, User user) {
+    public String processLoginForm(Model model, User user, HttpSession session, RedirectAttributes redir) {
         User trueUser = userService.findByEmail(user.getEmail());
+
+        if(trueUser == null) {
+            redir.addFlashAttribute("normalErrorMessage", "There is no such account! Please register first.");
+            return "redirect:/login";
+        }
+
         // You should not encrypt the raw password yourself.
         boolean match = bCryptPasswordEncoder.matches(user.getPassword(), trueUser.getPassword());
         if(match) {
             if (trueUser.getEnabled()) {
-                return "redirect:user";
+                // Set session to authenticate access
+                session.setAttribute("user", trueUser);
+                return "redirect:/user";
             } else {
                 model.addAttribute("normalErrorMessage", "Please activate your account first!");
                 return "login";

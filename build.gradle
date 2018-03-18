@@ -46,6 +46,10 @@ dependencies {
     // Tools such as password encryption.
     compile("org.springframework.security:spring-security-core")
 
+    // Spring security.
+    // compile 'org.springframework.security:spring-security-web:5.0.3.RELEASE'
+    // compile 'org.springframework.security:spring-security-config:5.0.3.RELEASE'
+
     compile group: 'org.springframework', name: 'spring-beans', version: '5.0.4.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.3.RELEASE'
 
@@ -60,4 +64,3 @@ dependencies {
     // Test configs.
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
-
