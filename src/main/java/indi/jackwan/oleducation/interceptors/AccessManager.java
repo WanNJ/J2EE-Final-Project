@@ -21,7 +21,7 @@ public class AccessManager extends HandlerInterceptorAdapter {
         HttpSession session = request.getSession(false);
         String role = (String) session.getAttribute("role");
 
-        if(role.equals(this.role)) {
+        if(role != null && role.equals(this.role)) {
             return true;
         } else {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

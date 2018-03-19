@@ -1,6 +1,7 @@
 package indi.jackwan.oleducation.configurations;
 
 import indi.jackwan.oleducation.interceptors.AccessManager;
+import indi.jackwan.oleducation.interceptors.LoginControlManager;
 import indi.jackwan.oleducation.interceptors.SessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,9 @@ public class MvcConfig implements WebMvcConfigurer {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+    LoginControlManager getLoginControlManager() { return new LoginControlManager(); }
+
     @Bean
     SessionManager getSessionManager() { return new SessionManager(); }
 
@@ -30,9 +34,9 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getSessionManager())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/image/**", "/js/**", "favicon.ico", "/login/**", "/register/**");
+	    registry.addInterceptor(getLoginControlManager()).addPathPatterns("/login", "/register");
+	    registry.addInterceptor(getSessionManager())
+                .addPathPatterns("/user/**", "/org/**", "/manager/**");
         // assuming you put your serve your static files with /resources/ mapping
         // and the login and register page is served with "/login" and "/register" mapping
 
