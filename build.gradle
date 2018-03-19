@@ -16,7 +16,7 @@ apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'oleducation'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 repositories {
@@ -46,13 +46,21 @@ dependencies {
     // Tools such as password encryption.
     compile("org.springframework.security:spring-security-core")
 
-    compile group: 'org.springframework', name: 'spring-beans', version:'5.0.4.RELEASE'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'1.5.3.RELEASE'
+    // Spring security.
+    // compile 'org.springframework.security:spring-security-web:5.0.3.RELEASE'
+    // compile 'org.springframework.security:spring-security-config:5.0.3.RELEASE'
+
+    compile group: 'org.springframework', name: 'spring-beans', version: '5.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.3.RELEASE'
 
     compile("com.nulab-inc:zxcvbn:1.2.3")
     compile("net.sourceforge.nekohtml:nekohtml:1.9.21")
 
+    // Spring Session with Redis - To solve data clustering problem
+    // Spring Boot provides dependency management for Spring Session modules,
+    // so there’s no need to explicitly declare dependency version.
+    // compile "org.springframework.session:spring-session-data-redis"
+
     // Test configs.
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
-
