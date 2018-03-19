@@ -45,6 +45,10 @@
          class="alert alert-danger" role="alert"
          th:text="${normalErrorMessage}"></div>
 
+    <div th:if="${normalInfoMessage}"
+         class="alert alert-success" role="alert"
+         th:text="${normalInfoMessage}"></div>
+
     <div class="form-label-group">
         <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email address"
                required autofocus>
