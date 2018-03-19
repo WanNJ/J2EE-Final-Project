@@ -58,8 +58,9 @@ public class LoginController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, RedirectAttributes redir) {
         session.invalidate();
+        redir.addFlashAttribute("normalInfoMessage", "You've just logged out successfully!");
         return "redirect:/login";
     }
 }
