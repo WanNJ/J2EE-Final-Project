@@ -17,6 +17,6 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String showRegistrationPage(Model model, HttpSession session) {
         model.addAttribute("user", session.getAttribute("user"));
-        return "user";
+        return "user/user";
     }
 }
