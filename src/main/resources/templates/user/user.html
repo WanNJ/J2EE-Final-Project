@@ -74,6 +74,27 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}">Success message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${dangerMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${dangerMessage}">Danger Message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${warningMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span th:text="${warningMessage}">Warning message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <div class="tab-content">
                 <div th:insert="~{user/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab"></div>
                 <div th:insert="~{user/orders}" class="tab-pane" id="orders" role="tabpanel" aria-labelledby="orders-tab"></div>

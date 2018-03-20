@@ -1,4 +1,4 @@
-package indi.jackwan.oleducation.controllers;
+package indi.jackwan.oleducation.controllers.user;
 
 import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
