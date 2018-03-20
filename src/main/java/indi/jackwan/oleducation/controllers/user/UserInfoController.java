@@ -56,4 +56,13 @@ public class UserInfoController {
         redir.addFlashAttribute("successMessage", "Your password has been reset successfully!");
         return "redirect:/user";
     }
+
+    @RequestMapping(value = "cancelMembership", method = RequestMethod.POST)
+    public String cancelMembership(Model model, HttpSession session, RedirectAttributes redir) {
+        User currentUser = (User) session.getAttribute("user");
+        currentUser.setVip(false);
+        userService.saveUser(currentUser);
+        redir.addFlashAttribute("successMessage", "You just cancelled your membership!");
+        return "redirect:/user";
+    }
 }

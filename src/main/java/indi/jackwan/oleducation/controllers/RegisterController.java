@@ -98,6 +98,7 @@ public class RegisterController {
             return "redirect:/register";
         } else { // Token found
             user.setEnabled(true);
+            user.setVip(true);
             userService.saveUser(user);
 
             session.setAttribute("user", user);
