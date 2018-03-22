@@ -10,26 +10,24 @@ import org.springframework.stereotype.Service;
 
 @Service("emailService")
 public class EmailService {
+	@Value("${app.host.url}")
+	private String hostUrl;
     @Value("${spring.mail.username}")
     private String from;
-
-    private JavaMailSender mailSender;
-	
 	@Autowired
-	public EmailService(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+    private JavaMailSender mailSender;
 
 	// The calling code doesn't have to wait for the send operation to complete in order to continue
 	@Async
-	public void sendConfirmationEmail(String confirmationUrl, User user) {
+	public void sendConfirmationEmail(User user) {
         SimpleMailMessage registrationEmail = new SimpleMailMessage();
 
+        String confirmationUrl = hostUrl + "confirm?token=" + user.getConfirmationToken();
         // Configure mail parameters.
         registrationEmail.setFrom(from);
         registrationEmail.setTo(user.getEmail());
         registrationEmail.setSubject("Online Education Registration Confirmation");
-        registrationEmail.setText("Thank you for your choice of our service." +
+        registrationEmail.setText("Hi, " + user.getNickname() + "! Thank you for your choice of our service." +
                 "To confirm your e-mail address, please click the link below:\n" + confirmationUrl);
 
 		mailSender.send(registrationEmail);

@@ -3,7 +3,6 @@ package indi.jackwan.oleducation.models;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
-import java.util.Set;
 
 // This tells Hibernate to make a table out of this class.
 @Entity
