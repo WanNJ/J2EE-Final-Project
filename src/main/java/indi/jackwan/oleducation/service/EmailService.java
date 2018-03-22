@@ -12,13 +12,8 @@ import org.springframework.stereotype.Service;
 public class EmailService {
     @Value("${spring.mail.username}")
     private String from;
-
-    private JavaMailSender mailSender;
-	
 	@Autowired
-	public EmailService(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
-	}
+    private JavaMailSender mailSender;
 
 	// The calling code doesn't have to wait for the send operation to complete in order to continue
 	@Async

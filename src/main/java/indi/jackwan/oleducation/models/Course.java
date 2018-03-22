@@ -1,6 +1,6 @@
 package indi.jackwan.oleducation.models;
 
-import indi.jackwan.oleducation.utils.CourseType;
+import indi.jackwan.oleducation.utils.Enums.CourseType;
 
 import javax.persistence.*;
 import java.sql.Date;
