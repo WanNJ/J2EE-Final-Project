@@ -22,7 +22,7 @@ public class EmailService {
 	public void sendConfirmationEmail(User user) {
         SimpleMailMessage registrationEmail = new SimpleMailMessage();
 
-        String confirmationUrl = hostUrl + "confirm?token=" + user.getConfirmationToken();
+        String confirmationUrl = hostUrl + "confirmUser?token=" + user.getConfirmationToken();
         // Configure mail parameters.
         registrationEmail.setFrom(from);
         registrationEmail.setTo(user.getEmail());

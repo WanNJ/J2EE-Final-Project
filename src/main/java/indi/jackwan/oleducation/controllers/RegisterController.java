@@ -1,5 +1,6 @@
 package indi.jackwan.oleducation.controllers;
 
+import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.service.UserService;
 import indi.jackwan.oleducation.utils.Enums.RegisterResult;
@@ -23,17 +24,23 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register/user", method = RequestMethod.GET)
     public String showRegistrationPage(Model model, User user) {
         model.addAttribute("user", user);
-        return "register";
+        return "user/register";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/register/org", method = RequestMethod.GET)
+    public String showRegistrationPage(Model model, Organization organization) {
+        model.addAttribute("org", organization);
+        return "org/register";
+    }
+
+    @RequestMapping(value = "/register/user", method = RequestMethod.POST)
     public String processRegistrationForm(Model model, @Valid User user, BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redir) throws Exception {
         if (bindingResult.hasErrors()) {
             model.addAttribute("normalErrorMessage", "Oops!  There is something wrong with your inputs.");
-            return "register";
+            return "user/register";
         }
 
         RegisterResult result = userService.register(user);
@@ -41,29 +48,28 @@ public class RegisterController {
         if(result == RegisterResult.ALREADY_REGISTERED) {
             model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
             bindingResult.reject("email");
-            return "register";
+            return "user/register";
         } else if (result == RegisterResult.PASSWORD_TOO_WEAK) {
             // Flash attributes only exist for one redirect.
             model.addAttribute("normalErrorMessage", "Your password is too weak.  Choose a stronger one.");
             bindingResult.reject("password");
-            return "register";
+            return "user/register";
         } else if (result == RegisterResult.SUCCESS) {
             model.addAttribute("confirmationMessage", "A confirmation e-mail has been sent to " + user.getEmail());
-            return "register";
+            return "user/register";
         } else {
             throw new Exception("FATAL ERROR! REGISTER LOGIC INCOMPLETE!");
         }
-
     }
 
-    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
+    @RequestMapping(value = "/confirmUser", method = RequestMethod.GET)
     public String confirmRegistration(Model model, @RequestParam("token") String token, RedirectAttributes redir, HttpSession session) {
         if (userService.confirm(token, session)) { // No token found in DB
             redir.addFlashAttribute("successMessage", "Your account has been activated!");
             return "redirect:/user";
         } else {
             redir.addFlashAttribute("normalErrorMessage", "Oops!  This is an invalid confirmation link. Please register an accnout instead.");
-            return "redirect:/register";
+            return "redirect:/register/user";
 
         }
     }

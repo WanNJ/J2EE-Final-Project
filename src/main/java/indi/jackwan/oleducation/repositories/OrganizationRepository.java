@@ -8,4 +8,5 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Iterable<Organization> findAll();
     Organization findById(int id);
     Organization findByName(String confirmationToken);
+    Organization findByOrgCode(String orgCode);
 }

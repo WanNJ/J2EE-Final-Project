@@ -7,6 +7,7 @@ import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.repositories.UserRepository;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
 import indi.jackwan.oleducation.utils.Enums.RegisterResult;
+import indi.jackwan.oleducation.utils.Login.LoginUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ public class UserService {
 
     /**
      * Log an user in.
-     *
      * @param email       User inputed email.
      * @param rawPassword User inputed raw password.
      * @return LoginResult
@@ -34,19 +34,9 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         if (user == null)
             return LoginResult.NO_SUCH_ACCOUNT;
-
-        // You should not encrypt the raw password yourself.
         boolean match = bCryptPasswordEncoder.matches(rawPassword, user.getPassword());
 
-        if (match) {
-            if (user.getEnabled()) {
-                return LoginResult.SUCCESS;
-            } else {
-                return LoginResult.NOT_ACTIVATED;
-            }
-        } else {
-            return LoginResult.WRONG_PASSWORD;
-        }
+        return LoginUtil.getLoginResult(match, user.isEnabled());
 
     }
 
@@ -118,7 +108,7 @@ public class UserService {
         return userRepository.findByConfirmationToken(confirmationToken);
     }
 
-    public void saveUser(User user) {
+    public void save(User user) {
         userRepository.save(user);
     }
 }

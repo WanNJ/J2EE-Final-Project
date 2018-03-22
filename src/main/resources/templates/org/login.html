@@ -2,33 +2,33 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
-    <title>User Login Page</title>
-    <link th:href="@{css/signInStyle.css}" rel="stylesheet">
+    <title>Organization Login Page</title>
+    <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
 </head>
 
 <body>
-<form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login}"
-      th:object="${user}" method="post" role="form" data-toggle="validator">
+<form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login/org}"
+      th:object="${org}" method="post" role="form" data-toggle="validator">
     <div class="text-center mb-4">
         <!--suppress RequiredAttributes -->
-        <img class="mb-4" th:src="@{image/logo.png}" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">User Login</h1>
-        <p>Your best choice of online education.<br> If this page does not show normally, please use the <b>latest
+        <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Organization Login</h1>
+        <p>Best platform ever!<br> If this page does not show normally, please use the <b>latest
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
 
-    <div th:if="${normalErrorMessage}"
+    <div th:if="${errorMessage}"
          class="alert alert-danger" role="alert"
-         th:text="${normalErrorMessage}"></div>
+         th:text="${errorMessage}"></div>
 
-    <div th:if="${normalInfoMessage}"
+    <div th:if="${successMessage}"
          class="alert alert-success" role="alert"
-         th:text="${normalInfoMessage}"></div>
+         th:text="${successMessage}"></div>
 
     <div class="form-label-group">
-        <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email address"
+        <input type="email" th:field="*{orgCode}" id="inputOrgCode" class="form-control" placeholder="Organization Code"
                required autofocus>
-        <label for="inputEmail">Email address</label>
+        <label for="inputOrgCode">Organization Code</label>
     </div>
 
     <div class="form-label-group">
@@ -44,7 +44,7 @@
     </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <p class="m-t text-muted text-center">
-        Don't have an account? <a href="/register">Register Now</a>
+        Want to join us? <a href="/register/org">Register Now</a>
     </p>
 </form>
 </body>
