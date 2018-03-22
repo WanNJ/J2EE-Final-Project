@@ -10,13 +10,14 @@ public class Organization {
     private int id;
     @Column(nullable = false, unique = true)
     private String orgCode;
-
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
     private String location;
     @Column(nullable = false)
     private int teacherNum;
+    @Column(nullable = false)
+    private boolean enabled;
     @OneToMany(mappedBy="organization",cascade = CascadeType.ALL)
     private List<Course> courses;
 
@@ -58,6 +59,14 @@ public class Organization {
 
     public void setTeacherNum(int teacherNum) {
         this.teacherNum = teacherNum;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public List<Course> getCourses() {
