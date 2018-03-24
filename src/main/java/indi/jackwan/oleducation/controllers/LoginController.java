@@ -1,7 +1,9 @@
 package indi.jackwan.oleducation.controllers;
 
+import indi.jackwan.oleducation.models.Manager;
 import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.models.User;
+import indi.jackwan.oleducation.service.ManagerService;
 import indi.jackwan.oleducation.service.OrgService;
 import indi.jackwan.oleducation.service.UserService;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
@@ -21,12 +23,19 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private ManagerService managerService;
+
+    @RequestMapping(value = "login", method = RequestMethod.GET)
+    public String showLoginDashboard(Model model, @RequestParam(value="message", required=false) String message) {
+        if (message != null) {
+            model.addAttribute("errorMessage", message);
+        }
+        return "login";
+    }
 
     @RequestMapping(value = "login/user", method = RequestMethod.GET)
     public String showUserLoginPage(Model model, User user, @RequestParam(value="message", required=false) String message) {
-        if (message != null) {
-            model.addAttribute("normalErrorMessage", message);
-        }
         model.addAttribute("user", user);
         return "user/login";
     }
@@ -35,6 +44,12 @@ public class LoginController {
     public String showOrgLoginPage(Model model, Organization organization) {
         model.addAttribute("org", organization);
         return "org/login";
+    }
+
+    @RequestMapping(value = "login/manager", method = RequestMethod.GET)
+    public String showOrgLoginPage(Model model, Manager manager) {
+        model.addAttribute("manager", manager);
+        return "manager/login";
     }
 
     @RequestMapping(value = "login/user", method = RequestMethod.POST)
@@ -83,10 +98,25 @@ public class LoginController {
         }
     }
 
+    @RequestMapping(value = "login/manager", method = RequestMethod.POST)
+    public String processManagerLoginForm(Model model, Manager manager, HttpSession session, RedirectAttributes redir) throws Exception {
+        LoginResult loginResult = managerService.login(manager.getUsername(), manager.getPassword());
+
+        if (loginResult == LoginResult.SUCCESS) {
+            Manager currentManager = managerService.findByUsername(manager.getUsername());
+            session.setAttribute("manager", currentManager);
+            session.setAttribute("role", "MANAGER");
+            return "redirect:/manager";
+        } else {
+            model.addAttribute("errorMessage", "No such account or wrong password!");
+            return "manager/login";
+        }
+    }
+
     @RequestMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes redir) {
         userService.logout(session);
-        redir.addFlashAttribute("normalInfoMessage", "You've just logged out successfully!");
+        redir.addFlashAttribute("infoMessage", "You've just logged out successfully!");
         return "redirect:/login";
     }
 }

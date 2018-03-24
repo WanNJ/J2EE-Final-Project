@@ -1,10 +1,119 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
-    <title>Organization Dashboard</title>
-    <link th:href="@{css/userDashboard.css}" rel="stylesheet">
+    <title>Organization Dashboad</title>
+    <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
 </head>
+
 <body>
-<p>Hello, Org!</p>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="" th:text="'Welcome, Manager!'"></a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" href="/logout">
+                Sign out
+                <span data-feather="log-out"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column" id="mainTab">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard">
+                            <span data-feather="home"></span>
+                            Dashboard <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#orders">
+                            <span data-feather="shopping-cart"></span>
+                            Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#statistics">
+                            <span data-feather="activity"></span>
+                            Statistics
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#personal-information">
+                            <span data-feather="user"></span>
+                            Personal Information
+                        </a>
+                    </li>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>VIP Section</span>
+                    </h6>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#previlege">
+                            <span data-feather="gift"></span>
+                            Privilege
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#score">
+                            <span data-feather="box"></span>
+                            Score
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#membership">
+                            <span data-feather="user-x"></span>
+                            Cancel Membership
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}">Success message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${dangerMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${dangerMessage}">Danger Message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${warningMessage}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span th:text="${warningMessage}">Warning message!</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <div th:insert="~{org/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab"></div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!--Tabs-->
+<script type="text/javascript">
+    $('#mainTab').find('a').on('click', function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+</script>
+
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
 </body>
 </html>

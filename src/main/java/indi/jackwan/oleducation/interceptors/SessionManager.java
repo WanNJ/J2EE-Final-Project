@@ -1,5 +1,7 @@
 package indi.jackwan.oleducation.interceptors;
 
+import indi.jackwan.oleducation.models.Manager;
+import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -17,7 +19,9 @@ public class SessionManager extends HandlerInterceptorAdapter {
 
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
-        boolean loggedIn = !(user == null);
+        Organization org = (Organization) session.getAttribute("org");
+        Manager manager = (Manager) session.getAttribute("manager");
+        boolean loggedIn = !((user == null) && (org == null) && (manager == null));
         if (loggedIn) {
             return true;
         } else {

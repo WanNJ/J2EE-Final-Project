@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+    <title>Login Dashboad</title>
+    <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div th:if="${errorMessage}"
+                     class="alert alert-danger" role="alert"
+                     th:text="${errorMessage}"></div>
+
+                <div th:if="${infoMessage}"
+                     class="alert alert-success" role="alert"
+                     th:text="${infoMessage}"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top" th:src="@{image/user.png}" style="height: 350px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">If you are a student wish to improve yourself, here is your entry.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/login/user" class="btn btn-block btn-outline-dark">User Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top" th:src="@{image/organization.png}" style="height: 350px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">If you are an organization wish to provide courses. Here is your entry.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/login/org" class="btn btn-block btn-outline-dark">Organization Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top" th:src="@{image/manager.png}" style="height: 350px; width: 100%; display: block;">
+                    <div class="card-body">
+                        <p class="card-text">If you are a manager of our online training college. Here is your entry.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/login/manager" class="btn btn-block btn-outline-dark">Manager Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
