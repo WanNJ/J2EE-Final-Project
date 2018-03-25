@@ -8,6 +8,7 @@ import indi.jackwan.oleducation.utils.Enums.RegisterResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,22 +28,20 @@ public class RegisterController {
     private OrgService orgService;
 
     @RequestMapping(value = "/register/user", method = RequestMethod.GET)
-    public String showUserRegistrationPage(Model model, User user) {
-        model.addAttribute("user", user);
+    public String showUserRegistrationPage(Model model, @ModelAttribute(value = "user") User user) {
         return "user/register";
     }
 
     @RequestMapping(value = "/register/org", method = RequestMethod.GET)
-    public String showOrgRegistrationPage(Model model, Organization organization) {
-        model.addAttribute("org", organization);
+    public String showOrgRegistrationPage(Model model, @ModelAttribute(value = "organization") Organization organization) {
         return "org/register";
     }
 
     @RequestMapping(value = "/register/user", method = RequestMethod.POST)
-    public String processUserRegisterationForm(Model model, @Valid User user, HttpServletRequest request, RedirectAttributes redir) throws Exception {
+    public String processUserRegisterationForm(Model model, @ModelAttribute(value = "user") User user, HttpServletRequest request, RedirectAttributes redir) throws Exception {
         RegisterResult result = userService.register(user);
 
-        if(result == RegisterResult.ALREADY_REGISTERED) {
+        if (result == RegisterResult.ALREADY_REGISTERED) {
             model.addAttribute("alreadyRegisteredMessage", "Oops!  There is already a user registered with the email provided.");
             return "user/register";
         } else if (result == RegisterResult.PASSWORD_TOO_WEAK) {
@@ -58,9 +57,9 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/register/org", method = RequestMethod.POST)
-    public String processOrgRegisterationForm(Model model, @Valid Organization organization, RedirectAttributes redir) throws Exception {
+    public String processOrgRegisterationForm(Model model, @ModelAttribute(value = "organization") Organization organization, RedirectAttributes redir) throws Exception {
         RegisterResult result = orgService.register(organization);
-        if(result == RegisterResult.ALREADY_REGISTERED) {
+        if (result == RegisterResult.ALREADY_REGISTERED) {
             model.addAttribute("errorMessage", "Oops!  Your organization name has already been used!");
             return "org/register";
         } else if (result == RegisterResult.PASSWORD_TOO_WEAK) {

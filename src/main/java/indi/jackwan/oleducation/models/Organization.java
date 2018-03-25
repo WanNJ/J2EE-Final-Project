@@ -22,6 +22,8 @@ public class Organization {
     private int teacherNum;
     @Column(nullable = false)
     private boolean enabled;
+    @Column(nullable = false)
+    private boolean declined;
     @OneToMany(mappedBy="organization",cascade = CascadeType.ALL)
     private List<Course> courses;
 
@@ -87,6 +89,14 @@ public class Organization {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isDeclined() {
+        return declined;
+    }
+
+    public void setDeclined(boolean declined) {
+        this.declined = declined;
     }
 
     public List<Course> getCourses() {

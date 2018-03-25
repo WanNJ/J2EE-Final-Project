@@ -49,6 +49,7 @@ public class OrgService {
         } else {
             organization.setPassword(bCryptPasswordEncoder.encode(organization.getPassword()));
             organization.setEnabled(false);
+            organization.setDeclined(false);
             orgRepository.save(organization);
             organization = orgRepository.findByName(organization.getName());
             organization.setOrgCode(OrgRegister.generateOrgCodeFromId(organization.getId()));

@@ -10,6 +10,7 @@ import indi.jackwan.oleducation.utils.Enums.LoginResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,25 +36,22 @@ public class LoginController {
     }
 
     @RequestMapping(value = "login/user", method = RequestMethod.GET)
-    public String showUserLoginPage(Model model, User user, @RequestParam(value="message", required=false) String message) {
-        model.addAttribute("user", user);
+    public String showUserLoginPage(Model model, @ModelAttribute(value = "user") User user) {
         return "user/login";
     }
 
     @RequestMapping(value = "login/org", method = RequestMethod.GET)
-    public String showOrgLoginPage(Model model, Organization organization) {
-        model.addAttribute("org", organization);
+    public String showOrgLoginPage(Model model, @ModelAttribute(value = "organization") Organization organization) {
         return "org/login";
     }
 
     @RequestMapping(value = "login/manager", method = RequestMethod.GET)
-    public String showOrgLoginPage(Model model, Manager manager) {
-        model.addAttribute("manager", manager);
+    public String showManagerLoginPage(Model model, @ModelAttribute(value = "manager") Manager manager) {
         return "manager/login";
     }
 
     @RequestMapping(value = "login/user", method = RequestMethod.POST)
-    public String processUserLoginForm(Model model, User user, HttpSession session, RedirectAttributes redir) throws Exception {
+    public String processUserLoginForm(Model model, @ModelAttribute(value = "user") User user, HttpSession session, RedirectAttributes redir) throws Exception {
         LoginResult loginResult = userService.login(user.getEmail(), user.getPassword());
 
         if (loginResult == LoginResult.NO_SUCH_ACCOUNT) {
@@ -76,7 +74,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "login/org", method = RequestMethod.POST)
-    public String processOrgLoginForm(Model model, Organization organization, HttpSession session, RedirectAttributes redir) throws Exception {
+    public String processOrgLoginForm(Model model, @ModelAttribute(value = "organization") Organization organization, HttpSession session, RedirectAttributes redir) throws Exception {
         LoginResult loginResult = orgService.login(organization.getOrgCode(), organization.getPassword());
 
         if (loginResult == LoginResult.NO_SUCH_ACCOUNT) {
@@ -99,7 +97,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "login/manager", method = RequestMethod.POST)
-    public String processManagerLoginForm(Model model, Manager manager, HttpSession session, RedirectAttributes redir) {
+    public String processManagerLoginForm(Model model, @ModelAttribute(value = "manager") Manager manager, HttpSession session, RedirectAttributes redir) {
         LoginResult loginResult = managerService.login(manager.getUsername(), manager.getPassword());
 
         if (loginResult == LoginResult.SUCCESS) {

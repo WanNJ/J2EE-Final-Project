@@ -31,42 +31,36 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">
-                            <span data-feather="shopping-cart"></span>
-                            Orders
+                        <a class="nav-link" href="#org-info">
+                            <span data-feather="users"></span>
+                            Organization Information
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#statistics">
-                            <span data-feather="activity"></span>
-                            Statistics
+                        <a class="nav-link" href="#payment">
+                            <span data-feather="check-circle"></span>
+                            Payment
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#personal-information">
-                            <span data-feather="user"></span>
-                            Personal Information
+                        <a class="nav-link" href="#grade-record">
+                            <span data-feather="award"></span>
+                            Grade Records
                         </a>
                     </li>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>VIP Section</span>
+                        <span>Statistics</span>
                     </h6>
                     <li class="nav-item">
-                        <a class="nav-link" href="#previlege">
-                            <span data-feather="gift"></span>
-                            Privilege
+                        <a class="nav-link" href="#order-statistics">
+                            <span data-feather="shopping-cart"></span>
+                            Order Statistics
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#score">
-                            <span data-feather="box"></span>
-                            Score
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#membership">
-                            <span data-feather="user-x"></span>
-                            Cancel Membership
+                        <a class="nav-link" href="#financial-statistics">
+                            <span data-feather="activity"></span>
+                            Financial Statistics
                         </a>
                     </li>
                 </ul>
@@ -96,7 +90,12 @@
             </div>
 
             <div class="tab-content">
-                <div th:insert="~{org/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab"></div>
+                <div th:insert="~{org/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
+                <div th:insert="~{org/org-info}" class="tab-pane" id="org-info" role="tabpanel"></div>
+                <div th:insert="~{org/payment}" class="tab-pane" id="payment" role="tabpanel"></div>
+                <div th:insert="~{org/record-grades}" class="tab-pane" id="grade-record" role="tabpanel"></div>
+                <div th:insert="~{org/order-statistics}" class="tab-pane" id="order-statistics" role="tabpanel"></div>
+                <div th:insert="~{org/financial-statistics}" class="tab-pane" id="financial-statistics" role="tabpanel"></div>
             </div>
         </main>
     </div>
