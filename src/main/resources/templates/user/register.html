@@ -20,7 +20,6 @@
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
 
-    <!--/*@thymesVar id="normalErrorMessage" type="templates"*/-->
     <div th:if="${normalErrorMessage}"
          class="alert alert-danger" role="alert"
          th:text="${normalErrorMessage}"></div>
@@ -31,17 +30,6 @@
     <div th:if="${alreadyRegisteredMessage}"
          class="alert alert-danger" role="alert"
          th:text="${alreadyRegisteredMessage}"></div>
-
-    <div th:if="${#fields.hasErrors('nickname')}"
-         th:errors="*{nickname}"
-         class="validation-message alert alert-danger" role="alert"></div>
-
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-         class="validation-message alert alert-danger" role="alert"></div>
-
-    <div th:if="${#fields.hasErrors('password')}"
-         th:errors="*{password}"
-         class="validation-message alert alert-danger" role="alert"></div>
 
     <div class="form-label-group">
         <input type="text" th:field="*{nickname}" id="inputNickname" class="form-control" placeholder="Nickname"

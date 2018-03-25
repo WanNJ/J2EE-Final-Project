@@ -9,7 +9,7 @@
 
 <body>
 <form class="form-user" id="registerForm" autocomplete="on" th:action="@{/register/org}"
-      th:object="${org}" method="post" role="form"
+      th:object="${organization}" method="post" role="form"
       data-toggle="validator">
 
     <div class="text-center mb-4">
@@ -20,28 +20,13 @@
             Chrome, Safari, and Firefox web browser</b>.</p>
     </div>
 
-    <!--/*@thymesVar id="normalErrorMessage" type="templates"*/-->
     <div th:if="${errorMessage}"
          class="alert alert-danger" role="alert"
          th:text="${errorMessage}"></div>
 
-    <div th:if="${confirmationMessage}" class="alert alert-success"
-         role="alert" th:text="${confirmationMessage}"></div>
-
-    <div th:if="${alreadyRegisteredMessage}"
-         class="alert alert-danger" role="alert"
-         th:text="${alreadyRegisteredMessage}"></div>
-
-    <div th:if="${#fields.hasErrors('name')}"
-         th:errors="*{name}"
-         class="validation-message alert alert-danger" role="alert"></div>
-
-    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-         class="validation-message alert alert-danger" role="alert"></div>
-
-    <div th:if="${#fields.hasErrors('password')}"
-         th:errors="*{password}"
-         class="validation-message alert alert-danger" role="alert"></div>
+    <div th:if="${successMessage}"
+         class="alert alert-success" role="alert"
+         th:text="${successMessage}"></div>
 
     <div class="form-label-group">
         <input type="text" th:field="*{name}" id="inputName" class="form-control" placeholder="Name"
@@ -50,9 +35,21 @@
     </div>
 
     <div class="form-label-group">
+        <input type="text" th:field="*{location}" id="inputLocation" class="form-control" placeholder="Location"
+               required autofocus>
+        <label for="inputLocation">Location</label>
+    </div>
+
+    <div class="form-label-group">
         <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email Address"
                data-error="This email address is invalid" required>
         <label for="inputEmail">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="number" th:field="*{teacherNum}" id="inputTeacherNum" min="1" class="form-control" placeholder="Teacher Number"
+               data-error="Please choose a valid integer." required>
+        <label for="inputEmail">Teacher Number</label>
     </div>
 
     <div class="form-label-group">

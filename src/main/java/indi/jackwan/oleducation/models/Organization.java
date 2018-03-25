@@ -10,10 +10,10 @@ public class Organization {
     private int id;
     @Column(nullable = false, unique = true)
     private String orgCode;
+    @Column(nullable = false, unique = true)
+    private String name;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
-    private String name;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)

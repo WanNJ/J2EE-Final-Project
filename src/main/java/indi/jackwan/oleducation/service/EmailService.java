@@ -1,5 +1,6 @@
 package indi.jackwan.oleducation.service;
 
+import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,4 +33,18 @@ public class EmailService {
 
 		mailSender.send(registrationEmail);
 	}
+
+	@Async
+    public void sendOrgCode(Organization organization) {
+        SimpleMailMessage orgCodeEmail = new SimpleMailMessage();
+
+        orgCodeEmail.setFrom(from);
+        orgCodeEmail.setTo(organization.getEmail());
+        orgCodeEmail.setSubject("Online Education Organization Registeration");
+        orgCodeEmail.setText("Hi, " + organization.getName() + "! Thank you for your choice of our online education platform." +
+                "The code of your organization is:\n" + organization.getOrgCode() + "\nOur college manager will check your application ASAP. " +
+                "Once you are approved, you will receive another email, until which your account will not be able to login. Thank you for your patience!");
+
+        mailSender.send(orgCodeEmail);
+    }
 }

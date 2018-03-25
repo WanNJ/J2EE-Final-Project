@@ -57,8 +57,8 @@ public class LoginController {
         LoginResult loginResult = userService.login(user.getEmail(), user.getPassword());
 
         if (loginResult == LoginResult.NO_SUCH_ACCOUNT) {
-            redir.addFlashAttribute("normalErrorMessage", "There is no such account! Please register first.");
-            return "redirect:/login/user";
+            model.addAttribute("normalErrorMessage", "There is no such account! Please register first.");
+            return "user/login";
         } else if (loginResult == LoginResult.WRONG_PASSWORD) {
             model.addAttribute("normalErrorMessage", "Wrong password!");
             return "user/login";
@@ -80,8 +80,8 @@ public class LoginController {
         LoginResult loginResult = orgService.login(organization.getOrgCode(), organization.getPassword());
 
         if (loginResult == LoginResult.NO_SUCH_ACCOUNT) {
-            redir.addFlashAttribute("errorMessage", "There is no such organization! Please register one first.");
-            return "redirect:org/login";
+            model.addAttribute("errorMessage", "There is no such organization! Please register one first.");
+            return "org/login";
         } else if (loginResult == LoginResult.WRONG_PASSWORD) {
             model.addAttribute("errorMessage", "Wrong password!");
             return "org/login";
@@ -90,7 +90,7 @@ public class LoginController {
             return "org/login";
         } else if (loginResult == LoginResult.SUCCESS) {
             Organization currentOrg = orgService.findByOrgCode(organization.getOrgCode());
-            session.setAttribute("org", organization);
+            session.setAttribute("org", currentOrg);
             session.setAttribute("role", "ORG");
             return "redirect:/org";
         } else {
@@ -99,7 +99,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "login/manager", method = RequestMethod.POST)
-    public String processManagerLoginForm(Model model, Manager manager, HttpSession session, RedirectAttributes redir) throws Exception {
+    public String processManagerLoginForm(Model model, Manager manager, HttpSession session, RedirectAttributes redir) {
         LoginResult loginResult = managerService.login(manager.getUsername(), manager.getPassword());
 
         if (loginResult == LoginResult.SUCCESS) {

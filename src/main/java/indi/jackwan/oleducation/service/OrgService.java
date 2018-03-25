@@ -1,9 +1,13 @@
 package indi.jackwan.oleducation.service;
 
+import com.nulabinc.zxcvbn.Strength;
+import com.nulabinc.zxcvbn.Zxcvbn;
 import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.repositories.OrganizationRepository;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
+import indi.jackwan.oleducation.utils.Enums.RegisterResult;
 import indi.jackwan.oleducation.utils.Login.LoginUtil;
+import indi.jackwan.oleducation.utils.Register.OrgRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +34,28 @@ public class OrgService {
         boolean match = bCryptPasswordEncoder.matches(rawPassword, org.getPassword());
 
         return LoginUtil.getLoginResult(match, org.isEnabled());
+    }
+
+    public RegisterResult register(Organization organization) throws Exception {
+        Organization org = orgRepository.findByName(organization.getName());
+        if(org != null)
+            return RegisterResult.ALREADY_REGISTERED;
+
+        Zxcvbn passwordCheck = new Zxcvbn();
+        Strength strength = passwordCheck.measure(organization.getPassword());
+
+        if (strength.getScore() < 3) {
+            return RegisterResult.PASSWORD_TOO_WEAK;
+        } else {
+            organization.setPassword(bCryptPasswordEncoder.encode(organization.getPassword()));
+            organization.setEnabled(false);
+            orgRepository.save(organization);
+            organization = orgRepository.findByName(organization.getName());
+            organization.setOrgCode(OrgRegister.generateOrgCodeFromId(organization.getId()));
+            orgRepository.save(organization);
+            emailService.sendOrgCode(organization);
+            return RegisterResult.SUCCESS;
+        }
     }
 
     public Organization findByOrgCode(String orgCode) {

@@ -8,7 +8,7 @@
 
 <body>
 <form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login/org}"
-      th:object="${org}" method="post" role="form" data-toggle="validator">
+      th:object="${organization}" method="post" role="form" data-toggle="validator">
     <div class="text-center mb-4">
         <!--suppress RequiredAttributes -->
         <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72">
@@ -25,8 +25,12 @@
          class="alert alert-success" role="alert"
          th:text="${successMessage}"></div>
 
+    <div th:if="${warningMessage}"
+         class="alert alert-warning" role="alert"
+         th:text="${warningMessage}"></div>
+
     <div class="form-label-group">
-        <input type="email" th:field="*{orgCode}" id="inputOrgCode" class="form-control" placeholder="Organization Code"
+        <input type="text" th:field="*{orgCode}" id="inputOrgCode" class="form-control" placeholder="Organization Code"
                required autofocus>
         <label for="inputOrgCode">Organization Code</label>
     </div>
