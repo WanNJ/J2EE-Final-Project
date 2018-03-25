@@ -26,6 +26,14 @@ public class OrgInfoChangeApplication {
         this.id = id;
     }
 
+    public String getOrgCode() {
+        return orgCode;
+    }
+
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode;
+    }
+
     public String getName() {
         return name;
     }
