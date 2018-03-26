@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+    <title>Organization Registeration Page</title>
+    <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
+</head>
+
+<body>
+<form class="form-user" id="registerForm" autocomplete="on" th:action="@{/register/org}"
+      th:object="${organization}" method="post" role="form"
+      data-toggle="validator">
+
+    <div class="text-center mb-4">
+        <!--suppress RequiredAttributes -->
+        <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Organization Registeration</h1>
+        <p>Best platform ever!<br> If this page does not show normally, please use the <b>latest
+            Chrome, Safari, and Firefox web browser</b>.</p>
+    </div>
+
+    <div th:if="${errorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${errorMessage}"></div>
+
+    <div th:if="${successMessage}"
+         class="alert alert-success" role="alert"
+         th:text="${successMessage}"></div>
+
+    <div class="form-label-group">
+        <input type="text" th:field="*{name}" id="inputName" class="form-control" placeholder="Name"
+               required autofocus>
+        <label for="inputName">Name</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="text" th:field="*{location}" id="inputLocation" class="form-control" placeholder="Location"
+               required autofocus>
+        <label for="inputLocation">Location</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email Address"
+               data-error="This email address is invalid" required>
+        <label for="inputEmail">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="number" th:field="*{teacherNum}" id="inputTeacherNum" min="1" class="form-control" placeholder="Teacher Number"
+               data-error="Please choose a valid integer." required>
+        <label for="inputEmail">Teacher Number</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Password"
+               data-error="This password is invalid." required>
+        <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+        <label for="inputConfirmPassword">Confirm Password</label>
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-primary btn-block">Register</button>
+    <p class="m-t text-muted text-center">
+        Already have an account? <a href="/login/org">Login Directly</a>
+    </p>
+</form>
+
+<script type="text/javascript">
+    var password = document.getElementById("inputPassword");
+    var confirm_password = document.getElementById("inputConfirmPassword");
+
+    function validatePassword() {
+        if (password.value !== confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match.");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+</script>
+
+</body>
+
+</html>

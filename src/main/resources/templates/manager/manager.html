@@ -2,13 +2,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
-    <title>User Dashboad</title>
+    <title>Manager Dashboad</title>
     <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
 </head>
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="" th:text="'Welcome, '+${user.nickname}+'!'">Nickname</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="" th:text="'Welcome, Manager!'"></a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="/logout">
@@ -31,42 +31,43 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">
-                            <span data-feather="shopping-cart"></span>
-                            Orders
+                        <a class="nav-link" href="#org-registration-application">
+                            <span data-feather="file-text"></span>
+                            Organization Registeration Applications
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#statistics">
-                            <span data-feather="activity"></span>
-                            Statistics
+                        <a class="nav-link" href="#org-info-change-application">
+                            <span data-feather="file-plus"></span>
+                            Organization Info Change Applications
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#personal-information">
-                            <span data-feather="user"></span>
-                            Personal Information
+                        <a class="nav-link" href="#payment">
+                            <span data-feather="package"></span>
+                            Payment
                         </a>
                     </li>
+
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>VIP Section</span>
+                        <span>Statistics</span>
                     </h6>
                     <li class="nav-item">
-                        <a class="nav-link" href="#previlege">
-                            <span data-feather="gift"></span>
-                            Privilege
+                        <a class="nav-link" href="#organization-statistics">
+                            <span data-feather="users"></span>
+                            Organization Statistics
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#score">
-                            <span data-feather="box"></span>
-                            Score
+                        <a class="nav-link" href="#user-statistics">
+                            <span data-feather="user"></span>
+                            User Statistics
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#membership">
-                            <span data-feather="user-x"></span>
-                            Cancel Membership
+                        <a class="nav-link" href="#financial-statistics">
+                            <span data-feather="dollar-sign"></span>
+                            Financial Statistics
                         </a>
                     </li>
                 </ul>
@@ -96,13 +97,13 @@
             </div>
 
             <div class="tab-content">
-                <div th:insert="~{user/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
-                <div th:insert="~{user/orders}" class="tab-pane" id="orders" role="tabpanel"></div>
-                <div th:insert="~{user/statistics}" class="tab-pane" id="statistics" role="tabpanel"></div>
-                <div th:insert="~{user/personal-information}" class="tab-pane" id="personal-information" role="tabpanel"></div>
-                <div th:insert="~{user/previlege}" class="tab-pane" id="previlege" role="tabpanel"></div>
-                <div th:insert="~{user/score}" class="tab-pane" id="score" role="tabpanel"></div>
-                <div th:insert="~{user/membership}" class="tab-pane" id="membership" role="tabpanel"></div>
+                <div th:insert="~{manager/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
+                <div th:insert="~{manager/org-registration-application}" class="tab-pane" id="org-registration-application" role="tabpanel"></div>
+                <div th:insert="~{manager/org-info-change-application}" class="tab-pane" id="org-info-change-application" role="tabpanel"></div>
+                <div th:insert="~{manager/payment}" class="tab-pane" id="payment" role="tabpanel"></div>
+                <div th:insert="~{manager/org-statistics}" class="tab-pane" id="organization-statistics" role="tabpanel"></div>
+                <div th:insert="~{manager/user-statistics}" class="tab-pane" id="user-statistics" role="tabpanel"></div>
+                <div th:insert="~{manager/financial-statistics}" class="tab-pane" id="financial-statistics" role="tabpanel"></div>
             </div>
         </main>
     </div>

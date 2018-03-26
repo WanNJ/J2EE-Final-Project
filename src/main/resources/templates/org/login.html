@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+    <title>Organization Login Page</title>
+    <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
+</head>
+
+<body>
+<form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login/org}"
+      th:object="${organization}" method="post" role="form" data-toggle="validator">
+    <div class="text-center mb-4">
+        <!--suppress RequiredAttributes -->
+        <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Organization Login</h1>
+        <p>Best platform ever!<br> If this page does not show normally, please use the <b>latest
+            Chrome, Safari, and Firefox web browser</b>.</p>
+    </div>
+
+    <div th:if="${errorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${errorMessage}"></div>
+
+    <div th:if="${successMessage}"
+         class="alert alert-success" role="alert"
+         th:text="${successMessage}"></div>
+
+    <div th:if="${warningMessage}"
+         class="alert alert-warning" role="alert"
+         th:text="${warningMessage}"></div>
+
+    <div class="form-label-group">
+        <input type="text" th:field="*{orgCode}" id="inputOrgCode" class="form-control" placeholder="Organization Code"
+               required autofocus>
+        <label for="inputOrgCode">Organization Code</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Password"
+               required>
+        <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="m-t text-muted text-center">
+        Want to join us? <a href="/register/org">Register Now</a>
+    </p>
+</form>
+</body>
+</html>

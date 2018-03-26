@@ -34,7 +34,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-	    registry.addInterceptor(getLoginControlManager()).addPathPatterns("/login", "/register");
+	    registry.addInterceptor(getLoginControlManager()).addPathPatterns("login", "/login/**", "/register/**");
 	    registry.addInterceptor(getSessionManager())
                 .addPathPatterns("/logout", "/user/**", "/org/**", "/manager/**");
         // assuming you put your serve your static files with /resources/ mapping

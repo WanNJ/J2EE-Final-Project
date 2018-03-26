@@ -1,5 +1,7 @@
 package indi.jackwan.oleducation.interceptors;
 
+import indi.jackwan.oleducation.models.Manager;
+import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.models.User;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,10 +18,15 @@ public class LoginControlManager extends HandlerInterceptorAdapter {
 
         HttpSession session = request.getSession(true);
         User user = (User) session.getAttribute("user");
-        boolean loggedIn = !(user == null);
-        if (loggedIn) {
-            // TODO Send user to different url according to their roles.
+        Organization org = (Organization) session.getAttribute("org");
+        Manager manager = (Manager) session.getAttribute("manager");
+        boolean loggedIn = !((user == null) && (org == null) && (manager == null));
+        if (user != null) {
             response.sendRedirect("/user");
+        } else if (org != null) {
+            response.sendRedirect("/org");
+        } else if (manager != null) {
+            response.sendRedirect("/manager");
         } else {
             return true;
         }

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+    <title>User Login Page</title>
+    <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
+</head>
+
+<body>
+<form class="form-user" id="signinForm" autocomplete="on" th:action="@{/login/user}"
+      th:object="${user}" method="post" role="form" data-toggle="validator">
+    <div class="text-center mb-4">
+        <!--suppress RequiredAttributes -->
+        <img class="mb-4" th:src="@{/image/logo.png}" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">User Login</h1>
+        <p>Your best choice of online education.<br> If this page does not show normally, please use the <b>latest
+            Chrome, Safari, and Firefox web browser</b>.</p>
+    </div>
+
+    <div th:if="${normalErrorMessage}"
+         class="alert alert-danger" role="alert"
+         th:text="${normalErrorMessage}"></div>
+
+    <div th:if="${normalInfoMessage}"
+         class="alert alert-success" role="alert"
+         th:text="${normalInfoMessage}"></div>
+
+    <div class="form-label-group">
+        <input type="email" th:field="*{email}" id="inputEmail" class="form-control" placeholder="Email address"
+               required autofocus>
+        <label for="inputEmail">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" th:field="*{password}" id="inputPassword" class="form-control" placeholder="Password"
+               required>
+        <label for="inputPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p class="m-t text-muted text-center">
+        Don't have an account? <a href="/register/user">Register Now</a>
+    </p>
+</form>
+</body>
+</html>

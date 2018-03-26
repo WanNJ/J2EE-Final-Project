@@ -1,31 +1,22 @@
 package indi.jackwan.oleducation.models;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Organization {
+public class OrgInfoChangeApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String orgCode;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
-    private String email;
     @Column(nullable = false)
     private String location;
     @Column(nullable = false)
     private int teacherNum;
-    @Column(nullable = false)
-    private boolean enabled;
-    @Column(nullable = false)
+    private boolean approved;
     private boolean declined;
-    @OneToMany(mappedBy="organization",cascade = CascadeType.ALL)
-    private List<Course> courses;
 
     public int getId() {
         return id;
@@ -43,28 +34,12 @@ public class Organization {
         this.orgCode = orgCode;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getLocation() {
@@ -83,12 +58,12 @@ public class Organization {
         this.teacherNum = teacherNum;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public boolean isDeclined() {
@@ -97,13 +72,5 @@ public class Organization {
 
     public void setDeclined(boolean declined) {
         this.declined = declined;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
     }
 }

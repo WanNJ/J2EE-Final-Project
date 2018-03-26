@@ -14,6 +14,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * TODO Refactor needed, service logic needs to be moved into service beans instead of staying in controllers.
+ * TODO Remember to refactor if there's enough time.
+ */
 
 @RequestMapping(value = "/user/info")
 @Controller
@@ -30,7 +34,7 @@ public class UserInfoController {
         } else {
             User currentUser = (User) session.getAttribute("user");
             currentUser.setNickname(user.getNickname());
-            userService.saveUser(currentUser);
+            userService.save(currentUser);
             redir.addFlashAttribute("successMessage", "You've just changed your nickname successfully!");
         }
         return "redirect:/user";
@@ -50,7 +54,7 @@ public class UserInfoController {
 
         // Set bCrpyted Password to improve security
         currentUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userService.saveUser(currentUser);
+        userService.save(currentUser);
         session.setAttribute("user", currentUser);
 
         redir.addFlashAttribute("successMessage", "Your password has been reset successfully!");
@@ -61,7 +65,7 @@ public class UserInfoController {
     public String cancelMembership(Model model, HttpSession session, RedirectAttributes redir) {
         User currentUser = (User) session.getAttribute("user");
         currentUser.setVip(false);
-        userService.saveUser(currentUser);
+        userService.save(currentUser);
         redir.addFlashAttribute("successMessage", "You just cancelled your membership!");
         return "redirect:/user";
     }

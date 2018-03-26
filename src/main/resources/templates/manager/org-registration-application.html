@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Organization Registration Applications</h1>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th>Organization Code</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Teacher Number</th>
+            <th>Email Address</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orgApplication : ${orgApplications}">
+            <td th:text="${orgApplication.orgCode}"></td>
+            <td th:text="${orgApplication.name}"></td>
+            <td th:text="${orgApplication.location}"></td>
+            <td th:text="${orgApplication.teacherNum}"></td>
+            <td th:text="${orgApplication.email}"></td>
+            <td>
+                <form th:action="@{/manager/org/applications/approve/{orgCode}(orgCode=${orgApplication.orgCode})}" method="post">
+                    <button class="btn btn-success" type="submit">APPROVE</button>
+                </form>
+            </td>
+
+            <td>
+                <form th:action="@{/manager/org/applications/{orgCode}(orgCode=${orgApplication.orgCode})}" method="post">
+                    <button class="btn btn-danger" type="submit">DECLINE</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</html>
