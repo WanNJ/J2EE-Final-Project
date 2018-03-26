@@ -2,6 +2,7 @@ package indi.jackwan.oleducation.service;
 
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
+import indi.jackwan.oleducation.models.OrgInfoChangeApplication;
 import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.repositories.OrganizationRepository;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
@@ -11,6 +12,8 @@ import indi.jackwan.oleducation.utils.Register.OrgRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service("orgService")
 public class OrgService {
@@ -57,6 +60,18 @@ public class OrgService {
             emailService.sendOrgCode(organization);
             return RegisterResult.SUCCESS;
         }
+    }
+
+    public List<Organization> getUncheckedOrgApplications() {
+        return orgRepository.findByDeclinedAndEnabled(false, false);
+    }
+
+    public void updateByInfoChangeApplication(OrgInfoChangeApplication application) {
+        Organization organization = orgRepository.findByOrgCode(application.getOrgCode());
+        organization.setName(application.getName());
+        organization.setLocation(application.getLocation());
+        organization.setTeacherNum(application.getTeacherNum());
+        orgRepository.save(organization);
     }
 
     public Organization findByOrgCode(String orgCode) {

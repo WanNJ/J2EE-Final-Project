@@ -2,9 +2,8 @@ package indi.jackwan.oleducation.controllers.org;
 
 import indi.jackwan.oleducation.models.OrgInfoChangeApplication;
 import indi.jackwan.oleducation.models.Organization;
-import indi.jackwan.oleducation.models.User;
+import indi.jackwan.oleducation.service.OrgInfoChangeApplicationService;
 import indi.jackwan.oleducation.service.OrgService;
-import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +18,8 @@ import javax.servlet.http.HttpSession;
 public class OrgInfoController {
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private OrgInfoChangeApplicationService orgInfoChangeApplicationService;
 
     @RequestMapping(value = "/org/info/changeInfo", method = RequestMethod.POST)
     public String changeOrgInfo(Model model, @ModelAttribute(value = "application") OrgInfoChangeApplication application, HttpSession session, RedirectAttributes redir) {
@@ -29,8 +30,10 @@ public class OrgInfoController {
         } else if (application.getTeacherNum() < 0) {
             redir.addFlashAttribute("dangerMessage", "Teacher number cannot be negative!");
         } else {
-            // TODO LOGIC
-            redir.addFlashAttribute("successMessage", "You've just changed your nickname successfully!");
+            Organization currentOrganization = (Organization) session.getAttribute("org");
+            application.setOrgCode(currentOrganization.getOrgCode());
+            orgInfoChangeApplicationService.save(application);
+            redir.addFlashAttribute("successMessage", "You've just submitted your application of changing the information of your organization!");
         }
         return "redirect:/org";
     }

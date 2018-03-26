@@ -40,11 +40,58 @@ public class EmailService {
 
         orgCodeEmail.setFrom(from);
         orgCodeEmail.setTo(organization.getEmail());
-        orgCodeEmail.setSubject("Online Education Organization Registeration");
+        orgCodeEmail.setSubject("Online Education Organization Registration");
         orgCodeEmail.setText("Hi, " + organization.getName() + "! Thank you for your choice of our online education platform." +
                 "The code of your organization is:\n" + organization.getOrgCode() + "\nOur college manager will check your application ASAP. " +
                 "Once you are approved, you will receive another email, until which your account will not be able to login. Thank you for your patience!");
 
         mailSender.send(orgCodeEmail);
+    }
+
+    @Async
+    public void declineApplication(Organization organization) {
+        SimpleMailMessage email = new SimpleMailMessage();
+
+        email.setFrom(from);
+        email.setTo(organization.getEmail());
+        email.setSubject("Application Declined!");
+        email.setText("We're very sorry to inform you that your application for , " + organization.getName() + " has been declined! Thank you for your choice of our online education platform." +
+                "FYI, the code of your organization is:\n" + organization.getOrgCode());
+
+        mailSender.send(email);
+    }
+
+    @Async
+    public void approveApplication(Organization organization) {
+        SimpleMailMessage email = new SimpleMailMessage();
+
+        email.setFrom(from);
+        email.setTo(organization.getEmail());
+        email.setSubject("Application Approved!");
+        email.setText("Congratulations, " + organization.getName() + "! Your application has been approved! You can now login to your account(" + organization.getOrgCode() + ") through our system!");
+        mailSender.send(email);
+    }
+
+    @Async
+    public void declineInfoChange(Organization organization) {
+        SimpleMailMessage email = new SimpleMailMessage();
+
+        email.setFrom(from);
+        email.setTo(organization.getEmail());
+        email.setSubject("Change to Organization Information Declined!");
+        email.setText("Sorry, your organization(" + organization.getOrgCode() + ")'s information change application has been declined!");
+        mailSender.send(email);
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Async
+    public void approveInfoChange(Organization organization) {
+	    SimpleMailMessage email = new SimpleMailMessage();
+
+	    email.setFrom(from);
+	    email.setTo(organization.getEmail());
+	    email.setSubject("Change to Organization Information Approved!");
+	    email.setText("Congratulations, your organization(" + organization.getOrgCode() + ")'s information has just been updated, please login to your account to check!");
+	    mailSender.send(email);
     }
 }

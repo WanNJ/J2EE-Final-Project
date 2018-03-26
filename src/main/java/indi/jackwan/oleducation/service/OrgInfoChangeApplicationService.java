@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service("orgInfoChangeApplicationService")
 public class OrgInfoChangeApplicationService {
@@ -41,15 +43,19 @@ public class OrgInfoChangeApplicationService {
         return orgInfoChangeApplicationRepository.findByDeclinedAndApproved(false, false);
     }
 
-    public List<OrgInfoChangeApplication> getApprovedApplications() {
-        return orgInfoChangeApplicationRepository.findByDeclinedAndApproved(false, true);
-    }
+    public List<OrgInfoChangeApplication> getCheckedApplications() {
+        List<OrgInfoChangeApplication> listOne = orgInfoChangeApplicationRepository.findByDeclinedAndApproved(false, true);
+        List<OrgInfoChangeApplication> listTwo = orgInfoChangeApplicationRepository.findByDeclinedAndApproved(true, false);
 
-    public List<OrgInfoChangeApplication> getDeclinedApplications() {
-        return orgInfoChangeApplicationRepository.findByDeclinedAndApproved(true, false);
+        return Stream.concat(listOne.stream(), listTwo.stream())
+                .collect(Collectors.toList());
     }
 
     public void save(OrgInfoChangeApplication application) {
         orgInfoChangeApplicationRepository.save(application);
+    }
+
+    public OrgInfoChangeApplication findById(int id) {
+        return orgInfoChangeApplicationRepository.findById(id);
     }
 }

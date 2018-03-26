@@ -14,16 +14,29 @@
             <th>Name</th>
             <th>Location</th>
             <th>Teacher Number</th>
-            <th>Wat</th>
+            <th>Email Address</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1,001</td>
-            <td>Lorem</td>
-            <td>ipsum</td>
-            <td>dolor</td>
-            <td>sit</td>
+        <tr th:each="orgApplication : ${orgApplications}">
+            <td th:text="${orgApplication.orgCode}"></td>
+            <td th:text="${orgApplication.name}"></td>
+            <td th:text="${orgApplication.location}"></td>
+            <td th:text="${orgApplication.teacherNum}"></td>
+            <td th:text="${orgApplication.email}"></td>
+            <td>
+                <form th:action="@{/manager/org/applications/approve/{orgCode}(orgCode=${orgApplication.orgCode})}" method="post">
+                    <button class="btn btn-success" type="submit">APPROVE</button>
+                </form>
+            </td>
+
+            <td>
+                <form th:action="@{/manager/org/applications/{orgCode}(orgCode=${orgApplication.orgCode})}" method="post">
+                    <button class="btn btn-danger" type="submit">DECLINE</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

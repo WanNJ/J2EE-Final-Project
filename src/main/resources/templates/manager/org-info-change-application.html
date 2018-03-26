@@ -14,16 +14,27 @@
             <th>Name</th>
             <th>Location</th>
             <th>Teacher Number</th>
-            <th>Wat</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1,001</td>
-            <td>Lorem</td>
-            <td>ipsum</td>
-            <td>dolor</td>
-            <td>sit</td>
+        <tr th:each="changeApplication : ${orgInfoChangeApplications}">
+            <td th:text="${changeApplication.orgCode}"></td>
+            <td th:text="${changeApplication.name}"></td>
+            <td th:text="${changeApplication.location}"></td>
+            <td th:text="${changeApplication.teacherNum}"></td>
+            <td>
+                <form th:action="@{/manager/org/changeInfoApplications/approve/{id}(id=${changeApplication.id})}" method="post">
+                    <button class="btn btn-success" type="submit">APPROVE</button>
+                </form>
+            </td>
+
+            <td>
+                <form th:action="@{/manager/org/changeInfoApplications/decline/{id}(id=${changeApplication.id})}" method="post">
+                    <button class="btn btn-danger" type="submit">DECLINE</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

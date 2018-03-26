@@ -18,7 +18,9 @@ public class OrgController {
 
     @RequestMapping(value = "/org", method = RequestMethod.GET)
     public String showRegistrationPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application) {
+        // Overall View
         model.addAttribute("org", session.getAttribute("org"));
+
         return "org/org";
     }
 }
