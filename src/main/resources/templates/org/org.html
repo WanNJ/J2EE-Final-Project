@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::script}, ~{::link})">
     <title>Organization Dashboad</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
     <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
 </head>
 
@@ -34,6 +36,12 @@
                         <a class="nav-link" href="#org-info">
                             <span data-feather="users"></span>
                             Organization Information
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#release-course">
+                            <span data-feather="book"></span>
+                            Release Courses
                         </a>
                     </li>
                     <li class="nav-item">
@@ -92,6 +100,7 @@
             <div class="tab-content">
                 <div th:insert="~{org/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
                 <div th:insert="~{org/org-info}" class="tab-pane" id="org-info" role="tabpanel"></div>
+                <div th:insert="~{org/release-course}" class="tab-pane" id="release-course" role="tabpanel"></div>
                 <div th:insert="~{org/payment}" class="tab-pane" id="payment" role="tabpanel"></div>
                 <div th:insert="~{org/record-grades}" class="tab-pane" id="grade-record" role="tabpanel"></div>
                 <div th:insert="~{org/order-statistics}" class="tab-pane" id="order-statistics" role="tabpanel"></div>

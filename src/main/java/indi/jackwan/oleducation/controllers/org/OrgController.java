@@ -1,5 +1,6 @@
 package indi.jackwan.oleducation.controllers.org;
 
+import indi.jackwan.oleducation.models.Course;
 import indi.jackwan.oleducation.models.OrgInfoChangeApplication;
 import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,8 @@ public class OrgController {
     private UserService userService;
 
     @RequestMapping(value = "/org", method = RequestMethod.GET)
-    public String showRegistrationPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application) {
+    public String showRegistrationPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application,
+                                       @ModelAttribute(value = "course") Course course) {
         // Overall View
         model.addAttribute("org", session.getAttribute("org"));
 
