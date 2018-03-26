@@ -8,17 +8,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form class="needs-validation" novalidate="" autocomplete="off" th:action="@{/org/release-course}"
-              th:object="${course}" method="post" role="form"
+        <form th:object="${course}" th:action="@{/org/release-course}" method="post" role="form" autocomplete="on"
               data-toggle="validator">
             <div class="row">
                 <div class="col-md-6">
                     <label for="course-name">Name</label>
                     <input type="text" th:field="*{name}" class="form-control" id="course-name"
                            placeholder="Course Name" value="" required>
-                    <div class="invalid-feedback">
-                        Valid name is required.
-                    </div>
                 </div>
                 <div class="col-md-6">
                     <label for="course-type">Course Tpye</label>
@@ -30,9 +26,6 @@
                         <option th:value="COMPUTER_SCIENCE">Computer Science</option>
                         <option th:value="PHYSICS">Physics</option>
                     </select>
-                    <div class="invalid-feedback">
-                        Please select a type for the course.
-                    </div>
                 </div>
             </div>
 
@@ -43,17 +36,14 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">@</span>
                     </div>
-                    <input type="text" class="form-control" id="location" placeholder="Location" required>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        Location is required.
-                    </div>
+                    <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Location" required>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <label for="start-date">Start Date</label>
-                    <input class="form-control" id="start-date" type="text" readonly>
+                    <input class="form-control" th:field="*{startTime}" id="start-date" type="text">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     <script>
                         $('#start-date').datepicker({
@@ -63,7 +53,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="end-date">End Date</label>
-                    <input class="form-control" id="end-date" type="text" readonly>
+                    <input class="form-control" th:field="*{endTime}" id="end-date" type="text">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     <script>
                         $('#end-date').datepicker({
@@ -79,24 +69,15 @@
                 <div class="col-md-5 mb-3">
                     <label for="frequency">Frequency (classes/week)</label>
                     <input type="number" th:field="*{frequency}" class="form-control" id="frequency" min="1" required>
-                    <div class="invalid-feedback">
-                        Valid frequency is required.
-                    </div>
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="duration">Duration (minutes/class)</label>
                     <input type="number" th:field="*{durationPerClass}" class="form-control" id="duration" min="30"
                            required>
-                    <div class="invalid-feedback">
-                        Valid duration is required.
-                    </div>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="price">Price</label>
                     <input type="number" th:field="*{price}" class="form-control" id="price" min="0" required>
-                    <div class="invalid-feedback">
-                        Price required.
-                    </div>
                 </div>
             </div>
 
@@ -104,9 +85,6 @@
                 <label for="description">Brief Description</label>
                 <div class="input-group">
                     <textarea th:field="*{description}" rows="3" class="form-control" id="description" placeholder="Please enter a brief description of this course..." required></textarea>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        Description is required.
-                    </div>
                 </div>
             </div>
 
