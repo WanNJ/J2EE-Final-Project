@@ -1,96 +1,102 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/org :: orgPage('Release Courses')">
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Release Course</h1>
-</div>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Release Courses</h1>
+    </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <form th:object="${course}" th:action="@{/org/release-course}" method="post" role="form" autocomplete="on"
-              data-toggle="validator">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="course-name">Name</label>
-                    <input type="text" th:field="*{name}" class="form-control" id="course-name"
-                           placeholder="Course Name" value="" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="course-type">Course Tpye</label>
-                    <select th:field="*{type}" class="custom-select d-block w-100" id="course-type" required>
-                        <option value="">Choose...</option>
-                        <option th:value="FOREIGN_LANGUAGE">Foreign Language</option>
-                        <option th:value="MATH">Math</option>
-                        <option th:value="ART">Art</option>
-                        <option th:value="COMPUTER_SCIENCE">Computer Science</option>
-                        <option th:value="PHYSICS">Physics</option>
-                    </select>
-                </div>
-            </div>
-
-            <!--Location-->
-            <div class="mb-3">
-                <label for="location">Location</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
+    <div class="row">
+        <div class="col-md-12">
+            <form th:object="${course}" th:action="@{/org/release-course}" method="post" role="form" autocomplete="on"
+                  data-toggle="validator">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="course-name">Name</label>
+                        <input type="text" th:field="*{name}" class="form-control" id="course-name"
+                               placeholder="Course Name" value="" required>
                     </div>
-                    <input type="text" th:field="*{location}" class="form-control" id="location" placeholder="Location" required>
+                    <div class="col-md-6">
+                        <label for="course-type">Course Tpye</label>
+                        <select th:field="*{type}" class="custom-select d-block w-100" id="course-type" required>
+                            <option value="">Choose...</option>
+                            <option th:value="FOREIGN_LANGUAGE">Foreign Language</option>
+                            <option th:value="MATH">Math</option>
+                            <option th:value="ART">Art</option>
+                            <option th:value="COMPUTER_SCIENCE">Computer Science</option>
+                            <option th:value="PHYSICS">Physics</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="start-date">Start Date</label>
-                    <input class="form-control" th:field="*{startTime}" id="start-date" type="text" readonly required>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <script>
-                        $('#start-date').datepicker({
-                            uiLibrary: 'bootstrap4'
-                        });
-                    </script>
+                <!--Location-->
+                <div class="mb-3">
+                    <label for="location">Location</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" th:field="*{location}" class="form-control" id="location"
+                               placeholder="Location" required>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="end-date">End Date</label>
-                    <input class="form-control" th:field="*{endTime}" id="end-date" type="text" readonly required>
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    <script>
-                        $('#end-date').datepicker({
-                            uiLibrary: 'bootstrap4'
-                        });
-                    </script>
-                </div>
-            </div>
 
-            <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="start-date">Start Date</label>
+                        <input class="form-control" th:field="*{startTime}" id="start-date" type="text" readonly
+                               required>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <script>
+                            $('#start-date').datepicker({
+                                uiLibrary: 'bootstrap4'
+                            });
+                        </script>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="end-date">End Date</label>
+                        <input class="form-control" th:field="*{endTime}" id="end-date" type="text" readonly required>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <script>
+                            $('#end-date').datepicker({
+                                uiLibrary: 'bootstrap4'
+                            });
+                        </script>
+                    </div>
+                </div>
 
-            <div class="row">
-                <div class="col-md-5 mb-3">
-                    <label for="frequency">Frequency (classes/week)</label>
-                    <input type="number" th:field="*{frequency}" class="form-control" id="frequency" min="1" required>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="duration">Duration (minutes/class)</label>
-                    <input type="number" th:field="*{durationPerClass}" class="form-control" id="duration" min="30"
-                           required>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="price">Price(USD)</label>
-                    <input type="number" th:field="*{price}" class="form-control" id="price" min="0" required>
-                </div>
-            </div>
+                <br>
 
-            <div class="mb-3">
-                <label for="description">Brief Description</label>
-                <div class="input-group">
-                    <textarea th:field="*{description}" rows="3" class="form-control" id="description" placeholder="Please enter a brief description of this course..." required></textarea>
+                <div class="row">
+                    <div class="col-md-5 mb-3">
+                        <label for="frequency">Frequency (classes/week)</label>
+                        <input type="number" th:field="*{frequency}" class="form-control" id="frequency" min="1"
+                               required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="duration">Duration (minutes/class)</label>
+                        <input type="number" th:field="*{durationPerClass}" class="form-control" id="duration" min="30"
+                               required>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="price">Price(USD)</label>
+                        <input type="number" th:field="*{price}" class="form-control" id="price" min="0" required>
+                    </div>
                 </div>
-            </div>
 
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Release Course</button>
-        </form>
+                <div class="mb-3">
+                    <label for="description">Brief Description</label>
+                    <div class="input-group">
+                        <textarea th:field="*{description}" rows="3" class="form-control" id="description"
+                                  placeholder="Please enter a brief description of this course..." required></textarea>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Release Course</button>
+            </form>
+        </div>
     </div>
 </div>
 
