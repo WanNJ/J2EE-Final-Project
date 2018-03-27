@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class OrgController {
@@ -32,10 +33,16 @@ public class OrgController {
     }
 
     @RequestMapping(value = "/org", method = RequestMethod.GET)
-    public String showRegistrationPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application,
+    public String showOrgPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application,
                                        @ModelAttribute(value = "course") Course course) {
+        Organization organization = (Organization) session.getAttribute("org");
+
         // Overall View
-        model.addAttribute("org", session.getAttribute("org"));
+        model.addAttribute("org", organization);
+
+        // Org Courses
+        List<Course> courseList = courseService.findCoursesByOrganization(organization);
+        model.addAttribute("courseList", courseList);
 
         return "org/org";
     }

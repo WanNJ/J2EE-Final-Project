@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service("courseService")
 public class CourseService {
@@ -30,5 +31,9 @@ public class CourseService {
                 return ReleaseCourseResult.SUCCESS;
             }
         }
+    }
+
+    public List<Course> findCoursesByOrganization(Organization organization) {
+        return courseRepository.findCoursesByOrganization(organization);
     }
 }
