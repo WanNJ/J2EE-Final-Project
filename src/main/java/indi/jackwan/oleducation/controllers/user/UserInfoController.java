@@ -19,13 +19,19 @@ import javax.servlet.http.HttpSession;
  * TODO Remember to refactor if there's enough time.
  */
 
-@RequestMapping(value = "/user/info")
 @Controller
 public class UserInfoController {
     @Autowired
     private UserService userService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    @RequestMapping(value = "/user/info", method = RequestMethod.GET)
+    public String showRegistrationPage(Model model, HttpSession session) {
+        model.addAttribute("user", session.getAttribute("user"));
+        return "user/personal-information";
+    }
 
     @RequestMapping(value = "/changeNickname", method = RequestMethod.POST)
     public String changeNickname(User user, Model model, HttpSession session, RedirectAttributes redir) {
@@ -58,15 +64,6 @@ public class UserInfoController {
         session.setAttribute("user", currentUser);
 
         redir.addFlashAttribute("successMessage", "Your password has been reset successfully!");
-        return "redirect:/user";
-    }
-
-    @RequestMapping(value = "cancelMembership", method = RequestMethod.POST)
-    public String cancelMembership(Model model, HttpSession session, RedirectAttributes redir) {
-        User currentUser = (User) session.getAttribute("user");
-        currentUser.setVip(false);
-        userService.save(currentUser);
-        redir.addFlashAttribute("successMessage", "You just cancelled your membership!");
         return "redirect:/user";
     }
 }

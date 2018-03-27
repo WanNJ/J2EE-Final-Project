@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" th:fragment="userPage(activeTab)">
+
 <head th:replace="layouts/common-header :: main(~{::title}, ~{}, ~{::link})">
     <title>User Dashboad</title>
     <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
@@ -8,7 +9,7 @@
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="" th:text="'Welcome, '+${user.nickname}+'!'">Nickname</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/user" th:text="'Welcome, '+${user.nickname}+'!'">Nickname</a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="/logout">
@@ -25,31 +26,31 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column" id="mainTab">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link" href="/user" th:classappend="${activeTab=='Dashboard'} ? active : ''">
                             <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
+                            Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">
+                        <a class="nav-link" href="/user/orders" th:classappend="${activeTab=='Orders'} ? active : ''">
                             <span data-feather="shopping-cart"></span>
                             Orders
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#course-market">
+                        <a class="nav-link" href="/user/courses" th:classappend="${activeTab=='Course Market'} ? active : ''">
                             <span data-feather="book"></span>
-                            Orders
+                            Course Market
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#statistics">
+                        <a class="nav-link" href="/user/statistics" th:classappend="${activeTab=='Statistics'} ? active : ''">
                             <span data-feather="activity"></span>
                             Statistics
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#personal-information">
+                        <a class="nav-link" href="/user/info" th:classappend="${activeTab=='Personal Information'} ? active : ''">
                             <span data-feather="user"></span>
                             Personal Information
                         </a>
@@ -58,19 +59,19 @@
                         <span>VIP Section</span>
                     </h6>
                     <li class="nav-item">
-                        <a class="nav-link" href="#previlege">
+                        <a class="nav-link" href="/user/previlege" th:classappend="${activeTab=='Privilege'} ? active : ''">
                             <span data-feather="gift"></span>
                             Privilege
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#score">
+                        <a class="nav-link" href="/user/score" th:classappend="${activeTab=='Score'} ? active : ''">
                             <span data-feather="box"></span>
                             Score
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#membership">
+                        <a class="nav-link" href="/user/membership" th:classappend="${activeTab=='Cancel Membership'} ? active : ''">
                             <span data-feather="user-x"></span>
                             Cancel Membership
                         </a>
@@ -102,26 +103,11 @@
             </div>
 
             <div class="tab-content">
-                <div th:insert="~{user/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
-                <div th:insert="~{user/orders}" class="tab-pane" id="orders" role="tabpanel"></div>
-                <div th:insert="~{user/course-market}" class="tab-pane" id="course-market" role="tabpanel"></div>
-                <div th:insert="~{user/statistics}" class="tab-pane" id="statistics" role="tabpanel"></div>
-                <div th:insert="~{user/personal-information}" class="tab-pane" id="personal-information" role="tabpanel"></div>
-                <div th:insert="~{user/previlege}" class="tab-pane" id="previlege" role="tabpanel"></div>
-                <div th:insert="~{user/score}" class="tab-pane" id="score" role="tabpanel"></div>
-                <div th:insert="~{user/membership}" class="tab-pane" id="membership" role="tabpanel"></div>
+                <div th:insert="~{this :: content}" class="tab-pane active" role="tabpanel"></div>
             </div>
         </main>
     </div>
 </div>
-
-<!--Tabs-->
-<script type="text/javascript">
-    $('#mainTab').find('a').on('click', function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-</script>
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
