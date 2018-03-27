@@ -26,7 +26,7 @@ public class Course {
     private int durationPerClass;
     private String description;
     private double price;
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     private Organization organization;
 
     public int getId() {

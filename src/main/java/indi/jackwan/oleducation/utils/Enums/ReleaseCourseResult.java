@@ -1,5 +1,5 @@
 package indi.jackwan.oleducation.utils.Enums;
 
 public enum ReleaseCourseResult {
-    SUCCESS
+    SUCCESS, NO_SUCH_ORGANIZATION, INVALID_TIME
 }

@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="start-date">Start Date</label>
-                    <input class="form-control" th:field="*{startTime}" id="start-date" type="text">
+                    <input class="form-control" th:field="*{startTime}" id="start-date" type="text" readonly required>
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     <script>
                         $('#start-date').datepicker({
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="end-date">End Date</label>
-                    <input class="form-control" th:field="*{endTime}" id="end-date" type="text">
+                    <input class="form-control" th:field="*{endTime}" id="end-date" type="text" readonly required>
                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     <script>
                         $('#end-date').datepicker({
