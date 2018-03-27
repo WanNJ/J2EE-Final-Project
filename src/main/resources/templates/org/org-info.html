@@ -1,40 +1,42 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/org :: orgPage('Organization Information')">
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Organization Information</h1>
-</div>
-
-<div class="container">
-
-<form class="form-user" autocomplete="off" th:action="@{/org/info/changeInfo}"
-      th:object="${application}" method="post" role="form" data-toggle="validator">
-
-    <div class="form-label-group">
-        <input type="text" th:field="*{name}" id="inputNickname" class="form-control"
-               placeholder="Nickname"
-               required autofocus>
-        <label for="inputNickname">Enter current name.</label>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Organization Information</h1>
     </div>
 
-    <div class="form-label-group">
-        <input type="text" th:field="*{location}" id="inputLocation" class="form-control"
-               placeholder="Location"
-               required autofocus>
-        <label for="inputLocation">Enter current location.</label>
+    <div class="container">
+
+        <form class="form-user" autocomplete="off" th:action="@{/org/info/changeInfo}"
+              th:object="${application}" method="post" role="form" data-toggle="validator">
+
+            <div class="form-label-group">
+                <input type="text" th:field="*{name}" id="inputNickname" class="form-control"
+                       placeholder="Nickname"
+                       required autofocus>
+                <label for="inputNickname">Enter current name.</label>
+            </div>
+
+            <div class="form-label-group">
+                <input type="text" th:field="*{location}" id="inputLocation" class="form-control"
+                       placeholder="Location"
+                       required autofocus>
+                <label for="inputLocation">Enter current location.</label>
+            </div>
+
+            <div class="form-label-group">
+                <input type="number" th:field="*{teacherNum}" min="0" id="inputTeacherNum" class="form-control"
+                       placeholder="Available Teacher Number"
+                       required autofocus>
+                <label for="inputTeacherNum">Enter current number of available teachers.</label>
+            </div>
+
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Change</button>
+        </form>
+
     </div>
-
-    <div class="form-label-group">
-        <input type="number" th:field="*{teacherNum}" min="0" id="inputTeacherNum" class="form-control"
-               placeholder="Available Teacher Number"
-               required autofocus>
-        <label for="inputTeacherNum">Enter current number of available teachers.</label>
-    </div>
-
-    <button class="btn btn-lg btn-dark btn-block" type="submit">Change</button>
-</form>
-
 </div>
 
 </html>

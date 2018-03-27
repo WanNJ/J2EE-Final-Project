@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layouts/common-header :: main(~{::title}, ~{}, ~{::link})">
-    <title>User Dashboad</title>
+      xmlns:th="http://www.thymeleaf.org" th:fragment="orgPage(activeTab)">
+
+<head th:replace="layouts/common-header :: main(~{::title}, ~{::script}, ~{::link})">
+    <title>Organization Dashboad</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
     <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
 </head>
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="" th:text="'Welcome, '+${user.nickname}+'!'">Nickname</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/org" th:text="'Welcome, '+${org.name}+'!'"></a>
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="/logout">
@@ -25,54 +28,48 @@
             <div class="sidebar-sticky">
                 <ul class="nav flex-column" id="mainTab">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard">
+                        <a class="nav-link" href="/org" th:classappend="${activeTab=='Dashboard'} ? active : ''">
                             <span data-feather="home"></span>
-                            Dashboard <span class="sr-only">(current)</span>
+                            Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#orders">
-                            <span data-feather="shopping-cart"></span>
-                            Orders
+                        <a class="nav-link" href="/org/info" th:classappend="${activeTab=='Organization Information'} ? active : ''">
+                            <span data-feather="users"></span>
+                            Organization Information
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#course-market">
+                        <a class="nav-link" href="/org/course" th:classappend="${activeTab=='Release Courses'} ? active : ''">
                             <span data-feather="book"></span>
-                            Orders
+                            Release Courses
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#statistics">
-                            <span data-feather="activity"></span>
-                            Statistics
+                        <a class="nav-link" href="/org/payment" th:classappend="${activeTab=='Payment'} ? active : ''">
+                            <span data-feather="check-circle"></span>
+                            Payment
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#personal-information">
-                            <span data-feather="user"></span>
-                            Personal Information
+                        <a class="nav-link" href="/org/grades" th:classappend="${activeTab=='Grades Record'} ? active : ''">
+                            <span data-feather="award"></span>
+                            Grades Record
                         </a>
                     </li>
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>VIP Section</span>
+                        <span>Statistics</span>
                     </h6>
                     <li class="nav-item">
-                        <a class="nav-link" href="#previlege">
-                            <span data-feather="gift"></span>
-                            Privilege
+                        <a class="nav-link" href="/org/order-statistics" th:classappend="${activeTab=='Order Statistics'} ? active : ''">
+                            <span data-feather="shopping-cart"></span>
+                            Order Statistics
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#score">
-                            <span data-feather="box"></span>
-                            Score
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#membership">
-                            <span data-feather="user-x"></span>
-                            Cancel Membership
+                        <a class="nav-link" href="/org/financial-statistics" th:classappend="${activeTab=='Financial Statistics'} ? active : ''">
+                            <span data-feather="dollar-sign"></span>
+                            Financial Statistics
                         </a>
                     </li>
                 </ul>
@@ -102,26 +99,11 @@
             </div>
 
             <div class="tab-content">
-                <div th:insert="~{user/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
-                <div th:insert="~{user/orders}" class="tab-pane" id="orders" role="tabpanel"></div>
-                <div th:insert="~{user/course-market}" class="tab-pane" id="course-market" role="tabpanel"></div>
-                <div th:insert="~{user/statistics}" class="tab-pane" id="statistics" role="tabpanel"></div>
-                <div th:insert="~{user/personal-information}" class="tab-pane" id="personal-information" role="tabpanel"></div>
-                <div th:insert="~{user/previlege}" class="tab-pane" id="previlege" role="tabpanel"></div>
-                <div th:insert="~{user/score}" class="tab-pane" id="score" role="tabpanel"></div>
-                <div th:insert="~{user/membership}" class="tab-pane" id="membership" role="tabpanel"></div>
+                <div th:insert="~{this :: content}" class="tab-pane active" role="tabpanel"></div>
             </div>
         </main>
     </div>
 </div>
-
-<!--Tabs-->
-<script type="text/javascript">
-    $('#mainTab').find('a').on('click', function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-    });
-</script>
 
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>

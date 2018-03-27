@@ -1,24 +1,28 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/user :: userPage('Cancel Membership')">
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Cancel Membership</h1>
-</div>
-
-<div th:if="${user.isVip()==true}" class="container">
-    <div class="alert alert-warning" role="alert">
-        This is an invertible operation! If you choose to cancel membership, you can no longer recover it. All of your score, previleges will be lost!
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Cancel Membership</h1>
     </div>
 
-    <form class="form-user" autocomplete="off" th:action="@{/user/info/cancelMembership}" method="post" role="form" data-toggle="validator">
-        <button class="btn btn-lg btn-dark btn-block" type="submit">Cancel</button>
-    </form>
-</div>
+    <div th:if="${user.isVip()==true}" class="container">
+        <div class="alert alert-warning" role="alert">
+            This is an invertible operation! If you choose to cancel membership, you can no longer recover it. All of
+            your score, previleges will be lost!
+        </div>
 
-<div th:if="${user.isVip()==false}" class="container">
-    <div class="alert alert-danger" role="alert">
-        You are not in any membership currently!
+        <form class="form-user" autocomplete="off" th:action="@{/user/cancelMembership}" method="post" role="form"
+              data-toggle="validator">
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Cancel</button>
+        </form>
+    </div>
+
+    <div th:if="${user.isVip()==false}" class="container">
+        <div class="alert alert-danger" role="alert">
+            You are not in any membership currently!
+        </div>
     </div>
 </div>
 

@@ -21,6 +21,12 @@ public class OrgInfoController {
     @Autowired
     private OrgInfoChangeApplicationService orgInfoChangeApplicationService;
 
+    @RequestMapping(value = "/org/info", method = RequestMethod.GET)
+    public String showOrgInfoPage(Model model, HttpSession session, @ModelAttribute(value = "application") OrgInfoChangeApplication application) {
+        model.addAttribute("org", session.getAttribute("org"));
+        return "org/org-info";
+    }
+
     @RequestMapping(value = "/org/info/changeInfo", method = RequestMethod.POST)
     public String changeOrgInfo(Model model, @ModelAttribute(value = "application") OrgInfoChangeApplication application, HttpSession session, RedirectAttributes redir) {
         if(application.getName().equals("")) {

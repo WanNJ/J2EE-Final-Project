@@ -1,62 +1,63 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-    <h1 class="h2">Personal Information</h1>
-</div>
-
-<div class="container">
-
-<form class="form-user" autocomplete="off" th:action="@{/user/info/changeNickname}"
-      th:object="${user}" method="post" role="form" data-toggle="validator">
-
-    <div class="form-label-group">
-        <input type="text" th:field="*{nickname}" id="inputNickname" class="form-control"
-               placeholder="Nickname"
-               required autofocus>
-        <label for="inputNickname">Enter your new nickname.</label>
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/user :: userPage('Personal Information')">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Personal Information</h1>
     </div>
 
-    <button class="btn btn-lg btn-dark btn-block" type="submit">Save</button>
-</form>
+    <div class="container">
 
-<br><br>
+        <form class="form-user" autocomplete="off" th:action="@{/user/info/changeNickname}"
+              th:object="${user}" method="post" role="form" data-toggle="validator">
 
-<form class="form-user" autocomplete="off" th:action="@{/user/info/changePassword}"
-      th:object="${user}" method="post" role="form" data-toggle="validator">
+            <div class="form-label-group">
+                <input type="text" th:field="*{nickname}" id="inputNickname" class="form-control"
+                       placeholder="Nickname"
+                       required autofocus>
+                <label for="inputNickname">Enter your new nickname.</label>
+            </div>
 
-    <div class="form-label-group">
-        <input type="password" id="inputNewPassword" class="form-control"
-               placeholder="New Password"
-               required autofocus>
-        <label for="inputNewPassword">Enter New Password</label>
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Save</button>
+        </form>
 
-        <input type="password" th:field="*{password}" id="inputConfirmNewPassword" class="form-control"
-               placeholder="New Password"
-               required autofocus>
-        <label for="inputConfirmNewPassword">Confirm New Password</label>
+        <br><br>
+
+        <form class="form-user" autocomplete="off" th:action="@{/user/info/changePassword}"
+              th:object="${user}" method="post" role="form" data-toggle="validator">
+
+            <div class="form-label-group">
+                <input type="password" id="inputNewPassword" class="form-control"
+                       placeholder="New Password"
+                       required autofocus>
+                <label for="inputNewPassword">Enter New Password</label>
+
+                <input type="password" th:field="*{password}" id="inputConfirmNewPassword" class="form-control"
+                       placeholder="New Password"
+                       required autofocus>
+                <label for="inputConfirmNewPassword">Confirm New Password</label>
+            </div>
+
+            <button class="btn btn-lg btn-dark btn-block" type="submit">Change Password</button>
+        </form>
+
     </div>
 
-    <button class="btn btn-lg btn-dark btn-block" type="submit">Change Password</button>
-</form>
+    <script type="text/javascript">
+        var password = document.getElementById("inputNewPassword");
+        var confirm_password = document.getElementById("inputConfirmNewPassword");
 
-</div>
-
-<script type="text/javascript">
-    var password = document.getElementById("inputNewPassword");
-    var confirm_password = document.getElementById("inputConfirmNewPassword");
-
-    function validatePassword() {
-        if (password.value !== confirm_password.value) {
-            confirm_password.setCustomValidity("Passwords Don't Match.");
-        } else {
-            confirm_password.setCustomValidity('');
+        function validatePassword() {
+            if (password.value !== confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match.");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
         }
-    }
 
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
-</script>
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+    </script>
+</div>
 
 </html>
