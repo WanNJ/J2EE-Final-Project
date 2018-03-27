@@ -2,11 +2,13 @@ package indi.jackwan.oleducation.service;
 
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
+import indi.jackwan.oleducation.models.Course;
 import indi.jackwan.oleducation.models.OrgInfoChangeApplication;
 import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.repositories.OrganizationRepository;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
 import indi.jackwan.oleducation.utils.Enums.RegisterResult;
+import indi.jackwan.oleducation.utils.Enums.ReleaseCourseResult;
 import indi.jackwan.oleducation.utils.Login.LoginUtil;
 import indi.jackwan.oleducation.utils.Register.OrgRegister;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +74,10 @@ public class OrgService {
         organization.setLocation(application.getLocation());
         organization.setTeacherNum(application.getTeacherNum());
         orgRepository.save(organization);
+    }
+
+    public ReleaseCourseResult releaseCourse(Course course) {
+        return ReleaseCourseResult.SUCCESS;
     }
 
     public Organization findByOrgCode(String orgCode) {

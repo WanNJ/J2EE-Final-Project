@@ -24,7 +24,7 @@ public class Organization {
     private boolean enabled;
     @Column(nullable = false)
     private boolean declined;
-    @OneToMany(mappedBy="organization",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="organization")
     private List<Course> courses;
 
     public int getId() {

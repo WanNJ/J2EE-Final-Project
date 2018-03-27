@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{}, ~{::link})">
     <title>User Dashboad</title>
     <link th:href="@{/css/userDashboard.css}" rel="stylesheet">
 </head>
@@ -33,6 +33,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#orders">
                             <span data-feather="shopping-cart"></span>
+                            Orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#course-market">
+                            <span data-feather="book"></span>
                             Orders
                         </a>
                     </li>
@@ -98,6 +104,7 @@
             <div class="tab-content">
                 <div th:insert="~{user/dashboard}" class="tab-pane active" id="dashboard" role="tabpanel"></div>
                 <div th:insert="~{user/orders}" class="tab-pane" id="orders" role="tabpanel"></div>
+                <div th:insert="~{user/course-market}" class="tab-pane" id="course-market" role="tabpanel"></div>
                 <div th:insert="~{user/statistics}" class="tab-pane" id="statistics" role="tabpanel"></div>
                 <div th:insert="~{user/personal-information}" class="tab-pane" id="personal-information" role="tabpanel"></div>
                 <div th:insert="~{user/previlege}" class="tab-pane" id="previlege" role="tabpanel"></div>

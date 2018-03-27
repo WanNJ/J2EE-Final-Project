@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="layouts/common-header :: main(~{::title}, ~{::link})">
+<head th:replace="layouts/common-header :: main(~{::title}, ~{}, ~{::link})">
     <title>User Registeration Page</title>
     <link th:href="@{/css/signInStyle.css}" rel="stylesheet">
 </head>

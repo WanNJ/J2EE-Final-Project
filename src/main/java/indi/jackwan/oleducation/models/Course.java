@@ -3,7 +3,7 @@ package indi.jackwan.oleducation.models;
 import indi.jackwan.oleducation.utils.Enums.CourseType;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 public class Course {
@@ -26,7 +26,7 @@ public class Course {
     private int durationPerClass;
     private String description;
     private double price;
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     private Organization organization;
 
     public int getId() {
