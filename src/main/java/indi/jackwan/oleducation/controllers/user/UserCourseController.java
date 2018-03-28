@@ -58,6 +58,17 @@ public class UserCourseController {
         model.addAttribute("course", course);
         model.addAttribute("class", aClass);
 
-        return "user/enroll-class";
+        return "user/enroll-class-with-reservation";
+    }
+
+    @RequestMapping(value = "/user/course/{courseId}/enroll", method = RequestMethod.GET)
+    public String enrollCourse(Model model, @PathVariable(value = "courseId") final int courseId, @ModelAttribute(value = "userOrder") UserOrder userOrder,
+                               HttpSession session, RedirectAttributes redir) {
+        model.addAttribute("user", session.getAttribute("user"));
+
+        Course course = courseService.findById(courseId);
+        model.addAttribute("course", course);
+
+        return "user/enroll-course-without-reservation";
     }
 }

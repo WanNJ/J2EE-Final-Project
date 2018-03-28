@@ -89,4 +89,8 @@ public class Class {
     public void setUserOrders(List<UserOrder> userOrders) {
         this.userOrders = userOrders;
     }
+
+    public boolean isAvailable(int studentNumber) {
+        return currentStudentNumber + studentNumber <= maxStudentNumber;
+    }
 }
