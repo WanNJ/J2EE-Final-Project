@@ -36,7 +36,7 @@ public class UserInfoController {
     @RequestMapping(value = "/changeNickname", method = RequestMethod.POST)
     public String changeNickname(User user, Model model, HttpSession session, RedirectAttributes redir) {
         if(user.getNickname().equals("")) {
-            redir.addFlashAttribute("dangerMessage", "Nickname cannot be empty!");
+            redir.addFlashAttribute("errorMessage", "Nickname cannot be empty!");
         } else {
             User currentUser = (User) session.getAttribute("user");
             currentUser.setNickname(user.getNickname());

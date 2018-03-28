@@ -84,8 +84,8 @@
                 </button>
             </div>
 
-            <div th:if="${dangerMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                <span th:text="${dangerMessage}">Danger Message!</span>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${errorMessage}">Error Message!</span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
