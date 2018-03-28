@@ -11,17 +11,20 @@
         <table class="table table-striped table-sm table-hover">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>Class Id</th>
                 <th>Teacher Name</th>
-                <th>Student Number</th>
+                <th>Current Student Number</th>
+                <th>Maximum Student Number</th>
                 <th>Price(USD)</th>
+                <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="perfect-center">
             <tr th:each="class : ${classList}">
                 <td th:text="${class.id}"></td>
                 <td th:text="${class.teacherName}"></td>
-                <td th:text="${class.studentNumber}"></td>
+                <td th:text="${class.currentStudentNumber}"></td>
+                <td th:text="${class.maxStudentNumber}"></td>
                 <td th:text="${class.price}"></td>
             </tr>
             </tbody>

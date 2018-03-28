@@ -28,6 +28,8 @@ public class UserOrder {
     private double actualPrice;
     @Column(nullable = false)
     private boolean paidToOrg;
+    @Column(nullable = false)
+    private int studentNumber;
 
     @ManyToOne
     private User user;
@@ -108,5 +110,13 @@ public class UserOrder {
 
     public void setOrganization(Organization organization) {
         this.organization = organization;
+    }
+
+    public int getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(int studentNumber) {
+        this.studentNumber = studentNumber;
     }
 }

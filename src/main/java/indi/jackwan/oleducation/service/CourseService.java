@@ -38,14 +38,23 @@ public class CourseService {
     }
 
     public boolean addClass(Organization organization, Course course, Class aClass) {
-        if(aClass.getStudentNumber() < 0 || aClass.getTeacherName().equals("") || aClass.getPrice() < 0 )
+        if(aClass.getMaxStudentNumber() < 0 || aClass.getTeacherName().equals("") || aClass.getPrice() < 0)
             return false;
         else {
+            aClass.setCurrentStudentNumber(0);
             aClass.setOrganization(organization);
             aClass.setCourse(course);
             classRepository.save(aClass);
             return true;
         }
+    }
+
+    public Class getClassById(int id) {
+        return classRepository.findById(id);
+    }
+
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 
     public List<Course> findCoursesByOrganization(Organization organization) {

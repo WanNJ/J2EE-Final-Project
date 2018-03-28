@@ -10,8 +10,10 @@ public class Class {
     private int id;
     @Column(nullable = false)
     private String teacherName;
+    @Column
+    private int currentStudentNumber;
     @Column(nullable = false)
-    private int studentNumber;
+    private int maxStudentNumber;
     @Column(nullable = false)
     private double price;
 
@@ -40,12 +42,20 @@ public class Class {
         this.teacherName = teacherName;
     }
 
-    public int getStudentNumber() {
-        return studentNumber;
+    public int getCurrentStudentNumber() {
+        return currentStudentNumber;
     }
 
-    public void setStudentNumber(int studentNumber) {
-        this.studentNumber = studentNumber;
+    public void setCurrentStudentNumber(int currentStudentNumber) {
+        this.currentStudentNumber = currentStudentNumber;
+    }
+
+    public int getMaxStudentNumber() {
+        return maxStudentNumber;
+    }
+
+    public void setMaxStudentNumber(int maxStudentNumber) {
+        this.maxStudentNumber = maxStudentNumber;
     }
 
     public double getPrice() {
