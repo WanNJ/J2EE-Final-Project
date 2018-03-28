@@ -8,7 +8,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table id="course_table" class="table table-striped table-sm table-hover">
             <thead>
             <tr>
                 <th>Id</th>
@@ -19,25 +19,35 @@
                 <th>End Date</th>
                 <th>Frequency(classes/week)</th>
                 <th>Duration(minutes/class)</th>
-                <th>Price(USD)</th>
                 <th>Brief Description</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="clickable-tbody">
             <tr th:each="course : ${courseList}">
-                <td th:text="${course.id}"></td>
-                <td th:text="${course.name}"></td>
-                <td th:text="${course.location}"></td>
-                <td th:text="${course.type}"></td>
-                <td th:text="${#dates.format(course.startTime, 'yyyy-MM-dd')}"></td>
-                <td th:text="${#dates.format(course.endTime, 'yyyy-MM-dd')}"></td>
-                <td th:text="${course.frequency}"></td>
-                <td th:text="${course.durationPerClass}"></td>
-                <td th:text="${course.price}"></td>
-                <td th:text="${course.description}"></td>
+                <a th:href="'org/course/' + ${course.id}">
+                    <td th:text="${course.id}"></td>
+                    <td th:text="${course.name}"></td>
+                    <td th:text="${course.location}"></td>
+                    <td th:text="${course.type}"></td>
+                    <td th:text="${#dates.format(course.startTime, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(course.endTime, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${course.frequency}"></td>
+                    <td th:text="${course.durationPerClass}"></td>
+                    <td th:text="${course.description}"></td>
+                </a>
             </tr>
             </tbody>
         </table>
     </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#course_table').find('> tbody > tr').click(function (e) {
+                e.preventDefault();
+                let courseId = $(this)[0].children[0].innerText;
+                window.location.href = "/org/course/" + courseId + "/add-class";
+            });
+        });
+    </script>
 </div>
 </html>

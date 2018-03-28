@@ -91,3 +91,18 @@ body {
 
 .border-top { border-top: 1px solid #e5e5e5; }
 .border-bottom { border-bottom: 1px solid #e5e5e5; }
+
+/*
+ * Make table rows clickable.
+ */
+
+.clickable-tbody tr:hover{
+    cursor: pointer;
+}
+
+.clickable-tbody > tr:active {
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
