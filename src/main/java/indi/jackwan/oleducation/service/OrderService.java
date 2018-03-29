@@ -43,6 +43,7 @@ public class OrderService {
             Organization organization = aClass.getOrganization();
             userOrder.setUser(user);
             userOrder.setOrganization(organization);
+            userOrder.setCourse(aClass.getCourse());
             userOrder.setaClass(aClass);
             userOrder.setPaidToOrg(false);
             userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
@@ -61,6 +62,7 @@ public class OrderService {
             Organization organization = course.getOrganization();
             userOrder.setUser(user);
             userOrder.setOrganization(organization);
+            userOrder.setCourse(course);
             userOrder.setPaidToOrg(false);
             userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
 

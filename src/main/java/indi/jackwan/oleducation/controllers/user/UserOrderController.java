@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class UserOrderController {
@@ -24,7 +25,12 @@ public class UserOrderController {
 
     @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
     public String getOrderPage(Model model, HttpSession session, RedirectAttributes redir) {
-        model.addAttribute("user", session.getAttribute("user"));
+        User currentUser = (User) session.getAttribute("user");
+        model.addAttribute("user", currentUser);
+
+        List<UserOrder> orderList = orderService.findUserOrdersByUser(currentUser);
+        model.addAttribute("orderList", orderList);
+
         return "user/orders";
     }
 
@@ -51,7 +57,9 @@ public class UserOrderController {
                                         @ModelAttribute(value = "userOrder") UserOrder userOrder) {
         User user = (User) session.getAttribute("user");
         if(orderService.makeCourseReservation(user, courseId, userOrder)) {
-            redir.addFlashAttribute("successMessage", "Your reservation has been made, please pay the bill within 15 minutes!");
+            // Actually, classes are assigned right after the order is placed.
+            redir.addFlashAttribute("successMessage", "Your reservation has been made, please pay the bill within 15 minutes!" +
+                    "Note that you will not be assigned to any class utill 2 weeks before the class begin. If we can't fulfill your requirements, full refund will be provided.");
         } else {
             redir.addFlashAttribute("errorMessage", "Oops, something went wrong!");
         }

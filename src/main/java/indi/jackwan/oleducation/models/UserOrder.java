@@ -34,6 +34,9 @@ public class UserOrder {
     private User user;
 
     @ManyToOne
+    private Course course;
+
+    @ManyToOne
     private Class aClass;
 
     @ManyToOne
@@ -115,5 +118,13 @@ public class UserOrder {
 
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

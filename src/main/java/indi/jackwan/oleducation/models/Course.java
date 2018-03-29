@@ -30,8 +30,11 @@ public class Course {
     @ManyToOne
     private Organization organization;
 
-    @OneToMany(mappedBy="course")
+    @OneToMany(mappedBy = "course")
     private List<Class> classes;
+
+    @OneToMany(mappedBy = "course")
+    private List<UserOrder> orders;
 
     public int getId() {
         return id;
@@ -113,7 +116,19 @@ public class Course {
         this.type = type;
     }
 
-    public List<Class> getClasses() { return classes; }
+    public List<Class> getClasses() {
+        return classes;
+    }
 
-    public void setClasses(List<Class> classes) { this.classes = classes; }
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
+    public List<UserOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<UserOrder> orders) {
+        this.orders = orders;
+    }
 }
