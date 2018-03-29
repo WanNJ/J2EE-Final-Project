@@ -30,11 +30,11 @@ public class OrgInfoController {
     @RequestMapping(value = "/org/info/changeInfo", method = RequestMethod.POST)
     public String changeOrgInfo(Model model, @ModelAttribute(value = "application") OrgInfoChangeApplication application, HttpSession session, RedirectAttributes redir) {
         if(application.getName().equals("")) {
-            redir.addFlashAttribute("dangerMessage", "Name cannot be empty!");
+            redir.addFlashAttribute("errorMessage", "Name cannot be empty!");
         } else if (application.getLocation().equals("")) {
-            redir.addFlashAttribute("dangerMessage", "Location cannot be empty!");
+            redir.addFlashAttribute("errorMessage", "Location cannot be empty!");
         } else if (application.getTeacherNum() < 0) {
-            redir.addFlashAttribute("dangerMessage", "Teacher number cannot be negative!");
+            redir.addFlashAttribute("errorMessage", "Teacher number cannot be negative!");
         } else {
             Organization currentOrganization = (Organization) session.getAttribute("org");
             application.setOrgCode(currentOrganization.getOrgCode());

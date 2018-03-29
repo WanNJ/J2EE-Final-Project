@@ -4,6 +4,7 @@ import indi.jackwan.oleducation.utils.Enums.CourseType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Course {
@@ -25,9 +26,15 @@ public class Course {
     // How long it takes to have one class.
     private int durationPerClass;
     private String description;
-    private double price;
+
     @ManyToOne
     private Organization organization;
+
+    @OneToMany(mappedBy = "course")
+    private List<Class> classes;
+
+    @OneToMany(mappedBy = "course")
+    private List<UserOrder> orders;
 
     public int getId() {
         return id;
@@ -93,14 +100,6 @@ public class Course {
         this.description = description;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public Organization getOrganization() {
         return organization;
     }
@@ -115,5 +114,21 @@ public class Course {
 
     public void setType(CourseType type) {
         this.type = type;
+    }
+
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    public void setClasses(List<Class> classes) {
+        this.classes = classes;
+    }
+
+    public List<UserOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<UserOrder> orders) {
+        this.orders = orders;
     }
 }

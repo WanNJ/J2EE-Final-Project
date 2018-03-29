@@ -3,6 +3,7 @@ package indi.jackwan.oleducation.models;
 import org.springframework.data.annotation.Transient;
 
 import javax.persistence.*;
+import java.util.List;
 
 // This tells Hibernate to make a table out of this class.
 @Entity
@@ -19,10 +20,15 @@ public class User {
     private boolean enabled;
     private boolean isVip;
     private String confirmationToken;
+    private double expenditure;
+    private double score;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserOrder> userOrders;
 
     public Integer getId() { return id; }
 
-    public void setId(Integer id) { this.id = id; }
+    public void setId(int id) { this.id = id; }
 
     public String getPassword() {
         return password;
@@ -59,4 +65,24 @@ public class User {
     public boolean isVip() { return isVip; }
 
     public void setVip(boolean vip) { isVip = vip; }
+
+    public List<UserOrder> getUserOrders() { return userOrders; }
+
+    public void setUserOrders(List<UserOrder> userOrders) { this.userOrders = userOrders; }
+
+    public double getExpenditure() {
+        return expenditure;
+    }
+
+    public void setExpenditure(double expenditure) {
+        this.expenditure = expenditure;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
 }

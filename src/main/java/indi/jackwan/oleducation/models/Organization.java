@@ -24,8 +24,15 @@ public class Organization {
     private boolean enabled;
     @Column(nullable = false)
     private boolean declined;
+
     @OneToMany(mappedBy="organization")
     private List<Course> courses;
+
+    @OneToMany(mappedBy = "organization")
+    private List<Class> classes;
+
+    @OneToMany(mappedBy = "organization")
+    private List<UserOrder> userOrders;
 
     public int getId() {
         return id;
@@ -106,4 +113,12 @@ public class Organization {
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
+
+    public List<Class> getClasses() { return classes; }
+
+    public void setClasses(List<Class> classes) { this.classes = classes; }
+
+    public List<UserOrder> getUserOrders() { return userOrders; }
+
+    public void setUserOrders(List<UserOrder> userOrders) { this.userOrders = userOrders; }
 }

@@ -69,19 +69,15 @@
                 <br>
 
                 <div class="row">
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="frequency">Frequency (classes/week)</label>
                         <input type="number" th:field="*{frequency}" class="form-control" id="frequency" min="1"
                                required>
                     </div>
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="duration">Duration (minutes/class)</label>
                         <input type="number" th:field="*{durationPerClass}" class="form-control" id="duration" min="30"
                                required>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label for="price">Price(USD)</label>
-                        <input type="number" th:field="*{price}" class="form-control" id="price" min="0" required>
                     </div>
                 </div>
 

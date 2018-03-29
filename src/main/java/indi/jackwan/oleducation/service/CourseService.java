@@ -1,7 +1,9 @@
 package indi.jackwan.oleducation.service;
 
+import indi.jackwan.oleducation.models.Class;
 import indi.jackwan.oleducation.models.Course;
 import indi.jackwan.oleducation.models.Organization;
+import indi.jackwan.oleducation.repositories.ClassRepository;
 import indi.jackwan.oleducation.repositories.CourseRepository;
 import indi.jackwan.oleducation.repositories.OrganizationRepository;
 import indi.jackwan.oleducation.utils.Enums.ReleaseCourseResult;
@@ -17,6 +19,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private OrganizationRepository organizationRepository;
+    @Autowired
+    private ClassRepository classRepository;
 
     public ReleaseCourseResult releaseCourse(Course course) {
         Organization organization = organizationRepository.findByOrgCode(course.getOrganization().getOrgCode());
@@ -33,7 +37,35 @@ public class CourseService {
         }
     }
 
+    public boolean addClass(Organization organization, Course course, Class aClass) {
+        if(aClass.getMaxStudentNumber() < 0 || aClass.getTeacherName().equals("") || aClass.getPrice() < 0)
+            return false;
+        else {
+            aClass.setCurrentStudentNumber(0);
+            aClass.setOrganization(organization);
+            aClass.setCourse(course);
+            classRepository.save(aClass);
+            return true;
+        }
+    }
+
+    public Class getClassById(int id) {
+        return classRepository.findById(id);
+    }
+
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    }
+
     public List<Course> findCoursesByOrganization(Organization organization) {
         return courseRepository.findCoursesByOrganization(organization);
+    }
+
+    public List<Class> getAllClass(Course course) {
+        return classRepository.findClassesByCourse(course);
+    }
+
+    public Course findById(int id) {
+        return courseRepository.findById(id);
     }
 }

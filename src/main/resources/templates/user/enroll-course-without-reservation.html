@@ -4,11 +4,15 @@
 
 <div th:fragment="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Course Market</h1>
+        <h1 class="h2" th:text="'Enroll Class for ' + ${course.name}"></h1>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        Please check the information below before you make your reservation.
     </div>
 
     <div class="table-responsive">
-        <table id="course_table" class="table table-striped table-sm table-hover text-center">
+        <table class="table table-striped table-sm text-center">
             <thead>
             <tr>
                 <th>Course Id</th>
@@ -23,8 +27,8 @@
                 <th>Brief Description</th>
             </tr>
             </thead>
-            <tbody class="clickable-tbody perfect-center">
-            <tr th:each="course : ${courseList}">
+            <tbody class="perfect-center">
+            <tr>
                 <td th:text="${course.id}"></td>
                 <td th:text="${course.organization.getName()}"></td>
                 <td th:text="${course.name}"></td>
@@ -38,16 +42,23 @@
             </tr>
             </tbody>
         </table>
+    </div>
 
-        <script>
-            $(document).ready(function () {
-                $('#course_table').find('> tbody > tr').click(function (e) {
-                    e.preventDefault();
-                    let courseId = $(this)[0].children[0].innerText;
-                    window.location.href = "/user/course/" + courseId + "/classes";
-                });
-            });
-        </script>
+    <div class="row">
+        <div class="col-md-12">
+            <form th:object="${userOrder}" th:action="@{/user/order/course/{courseId}/reserve(courseId=${course.id})}" method="post" role="form" autocomplete="off"
+                  data-toggle="validator">
+
+                <div class="mb-3">
+                    <label for="studentNumber">Student Number</label>
+                    <input type="number" th:field="*{studentNumber}" class="form-control" id="studentNumber" min="1" max="9"
+                           required>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Make Reservation</button>
+            </form>
+        </div>
     </div>
 </div>
 </html>

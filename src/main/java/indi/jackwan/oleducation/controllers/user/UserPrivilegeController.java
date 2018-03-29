@@ -1,5 +1,6 @@
 package indi.jackwan.oleducation.controllers.user;
 
+import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,9 @@ public class UserPrivilegeController {
 
     @RequestMapping(value = "/user/previlege", method = RequestMethod.GET)
     public String getPrivilegePage(Model model, HttpSession session, RedirectAttributes redir) {
-        model.addAttribute("user", session.getAttribute("user"));
+        User old = (User) session.getAttribute("user");
+        User current = userService.findById(old.getId());
+        model.addAttribute("user", current);
         return "user/privilege";
     }
 }

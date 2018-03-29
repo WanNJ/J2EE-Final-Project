@@ -62,6 +62,9 @@ public class UserService {
         } else {
             // Set bCrpyted Password to improve security
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setExpenditure(0.0);
+            user.setScore(0.0);
+
             // Disable user until they click on confirmation link in email
             user.setEnabled(false);
             user.setVip(false);
@@ -106,6 +109,10 @@ public class UserService {
 
     public User findByConfirmationToken(String confirmationToken) {
         return userRepository.findByConfirmationToken(confirmationToken);
+    }
+
+    public User findById(int id) {
+        return userRepository.findById(id);
     }
 
     public void save(User user) {

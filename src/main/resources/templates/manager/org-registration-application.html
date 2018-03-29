@@ -8,7 +8,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm table-hover text-center">
             <thead>
             <tr>
                 <th>Organization Code</th>
@@ -20,7 +20,7 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="perfect-center">
             <tr th:each="orgApplication : ${orgApplications}">
                 <td th:text="${orgApplication.orgCode}"></td>
                 <td th:text="${orgApplication.name}"></td>
