@@ -36,11 +36,37 @@ public class OrderService {
         return orderRepository.findUserOrdersByUser(user);
     }
 
+    private boolean autoAllocateOrder(UserOrder userOrder, Course course) {
+        List<Class> classList = classRepository.findClassesByCourse(course);
+
+        if (classList == null)
+            return false;
+
+        for (Class aClass: classList) {
+            if (aClass.isAvailable(userOrder.getStudentNumber())) {
+                aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() + userOrder.getStudentNumber());
+                userOrder.setaClass(aClass);
+                userOrder.setActualPrice(vipService.getDiscount(userOrder.getUser().getId()) * userOrder.getStudentNumber() * aClass.getPrice());
+                userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
+                classRepository.save(aClass);
+                orderRepository.save(userOrder);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean makeClassReservation(User user, int classId, UserOrder userOrder) {
         Class aClass = classRepository.findById(classId);
 
         if(aClass.isAvailable(userOrder.getStudentNumber()) && userOrder.getStudentNumber() <= 3) {
             Organization organization = aClass.getOrganization();
+
+            // Update current studentNumber
+            aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() + userOrder.getStudentNumber());
+            classRepository.save(aClass);
+
             userOrder.setUser(user);
             userOrder.setOrganization(organization);
             userOrder.setCourse(aClass.getCourse());
@@ -48,6 +74,7 @@ public class OrderService {
             userOrder.setPaidToOrg(false);
             userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
             userOrder.setActualPrice(vipService.getDiscount(user.getId()) * userOrder.getStudentNumber() * aClass.getPrice());
+
             orderRepository.save(userOrder);
             return true;
         } else {
@@ -55,7 +82,7 @@ public class OrderService {
         }
     }
 
-    public boolean makeCourseReservation(User user, int courseId, UserOrder userOrder) {
+    public OrderStatus makeCourseReservation(User user, int courseId, UserOrder userOrder) {
         Course course = courseRepository.findById(courseId);
 
         if(userOrder.getStudentNumber() <= 9) {
@@ -64,14 +91,18 @@ public class OrderService {
             userOrder.setOrganization(organization);
             userOrder.setCourse(course);
             userOrder.setPaidToOrg(false);
-            userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
 
-            // TODO Allocate classes 2 weeks before classes begin. And then calculate price.
+            if (autoAllocateOrder(userOrder, course)) {
+                return OrderStatus.WAITING_TO_BE_PAID;
+            }
+            else {
+                userOrder.setStatus(OrderStatus.UNSUCCESSFULL);
+                orderRepository.save(userOrder);
+                return OrderStatus.UNSUCCESSFULL;
+            }
 
-            orderRepository.save(userOrder);
-            return true;
         } else {
-            return false;
+            return OrderStatus.INVALID;
         }
     }
 }

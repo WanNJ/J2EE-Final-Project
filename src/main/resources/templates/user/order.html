@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/user :: userPage('Orders')">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2" th:text="'Order for course - ' + ${userOrder.getCourse().getName()}"></h1>
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'WAITING_TO_BE_PAID'}">
+        <div class="alert alert-info" role="alert" >
+            Please check the information of your order below before you place your order.
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-sm table-hover text-center">
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Organization Name</th>
+                    <th>Course Name</th>
+                    <th>Student Number</th>
+                    <th>Actual Price</th>
+                    <th>Create Time</th>
+                    <th>Order Status</th>
+                </tr>
+                </thead>
+                <tbody class="perfect-center">
+                <tr>
+                    <td th:text="${userOrder.id}"></td>
+                    <td th:text="${userOrder.getOrganization().getName()}"></td>
+                    <td th:text="${userOrder.getCourse().getName()}"></td>
+                    <td th:text="${userOrder.studentNumber}"></td>
+                    <td th:text="${userOrder.actualPrice}"></td>
+                    <td th:text="${userOrder.getCreateDate()}"></td>
+                    <td th:text="${userOrder.getStatus()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <table class="table table-striped table-sm text-center">
+            <thead>
+            <tr>
+                <th>Class Id</th>
+                <th>Teacher Name</th>
+                <th>Current Student Number</th>
+                <th>Maximum Student Number</th>
+            </tr>
+            </thead>
+            <tbody class="perfect-center">
+            <tr>
+                <td th:text="${userOrder.getaClass().id}"></td>
+                <td th:text="${userOrder.getaClass().teacherName}"></td>
+                <td th:text="${userOrder.getaClass().currentStudentNumber}"></td>
+                <td th:text="${userOrder.getaClass().maxStudentNumber}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'INVALID'}" class="alert alert-danger" role="alert" >
+        This is an invalid order.
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'UNSUCCESSFUL'}" class="alert alert-danger" role="alert" >
+        This is an unsuccessful order, because we can't fulfill all of your requirements.
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'EXPIRED'}" class="alert alert-danger" role="alert" >
+        This is an unsuccessful order, because we can't fulfill all of your requirements.
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'CANCELLED'}" class="alert alert-danger" role="alert" >
+        This is an cancelled order.
+    </div>
+
+    <div th:if="${userOrder.getStatus().name() == 'PAID'}">
+
+    </div>
+</div>
+</html>
