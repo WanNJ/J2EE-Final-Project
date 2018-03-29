@@ -45,7 +45,7 @@ public class UserOrderController {
         return "redirect:/user/orders";
     }
 
-    @RequestMapping(value = "/user/order/{courseId}/32/reserve", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/order/course/{courseId}/reserve", method = RequestMethod.POST)
     public String makeCourseReservation(Model model, HttpSession session, RedirectAttributes redir,
                                         @PathVariable(value = "courseId") final int courseId,
                                         @ModelAttribute(value = "userOrder") UserOrder userOrder) {

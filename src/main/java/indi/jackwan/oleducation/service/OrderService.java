@@ -21,6 +21,8 @@ public class OrderService {
     private CourseRepository courseRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private VipService vipService;
 
     public UserOrder findById(int id) {
         return orderRepository.findById(id);
@@ -44,9 +46,7 @@ public class OrderService {
             userOrder.setaClass(aClass);
             userOrder.setPaidToOrg(false);
             userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
-
-            // TODO Calcualte Price
-
+            userOrder.setActualPrice(vipService.getDiscount(user.getId()) * userOrder.getStudentNumber() * aClass.getPrice());
             orderRepository.save(userOrder);
             return true;
         } else {
@@ -64,9 +64,7 @@ public class OrderService {
             userOrder.setPaidToOrg(false);
             userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
 
-            // TODO Calcualte Price.
-
-            // TODO Allocate classes 2 weeks before classes begin.
+            // TODO Allocate classes 2 weeks before classes begin. And then calculate price.
 
             orderRepository.save(userOrder);
             return true;

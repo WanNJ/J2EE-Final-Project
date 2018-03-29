@@ -20,6 +20,8 @@ public class User {
     private boolean enabled;
     private boolean isVip;
     private String confirmationToken;
+    private double expenditure;
+    private double score;
 
     @OneToMany(mappedBy = "user")
     private List<UserOrder> userOrders;
@@ -67,4 +69,20 @@ public class User {
     public List<UserOrder> getUserOrders() { return userOrders; }
 
     public void setUserOrders(List<UserOrder> userOrders) { this.userOrders = userOrders; }
+
+    public double getExpenditure() {
+        return expenditure;
+    }
+
+    public void setExpenditure(double expenditure) {
+        this.expenditure = expenditure;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
 }

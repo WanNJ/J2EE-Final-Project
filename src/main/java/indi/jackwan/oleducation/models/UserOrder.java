@@ -3,6 +3,7 @@ package indi.jackwan.oleducation.models;
 import indi.jackwan.oleducation.utils.Enums.OrderStatus;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,19 +13,17 @@ import java.util.Date;
  * "ORDER" is an reserved word in SQL. User "UserOrder" to escape it.
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class UserOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(nullable = false)
     @CreatedDate
     private Date createDate;
-    @Column(nullable = false)
     @LastModifiedDate
     private Date updateDate;
     @Column(nullable = false)
     private OrderStatus status;
-    @Column(nullable = false)
     private double actualPrice;
     @Column(nullable = false)
     private boolean paidToOrg;
@@ -40,9 +39,7 @@ public class UserOrder {
     @ManyToOne
     private Organization organization;
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
     public void setId(int id) {
         this.id = id;
