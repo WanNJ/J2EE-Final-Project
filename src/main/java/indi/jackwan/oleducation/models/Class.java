@@ -26,6 +26,12 @@ public class Class {
     @OneToMany(mappedBy = "aClass")
     private List<UserOrder> userOrders;
 
+    @OneToMany(mappedBy = "aClass")
+    private List<ClassSignIn> signInList;
+
+    @OneToMany(mappedBy = "aClass")
+    private List<Grade> gradeList;
+
     public int getId() {
         return id;
     }
@@ -88,6 +94,22 @@ public class Class {
 
     public void setUserOrders(List<UserOrder> userOrders) {
         this.userOrders = userOrders;
+    }
+
+    public List<ClassSignIn> getSignInList() {
+        return signInList;
+    }
+
+    public void setSignInList(List<ClassSignIn> signInList) {
+        this.signInList = signInList;
+    }
+
+    public List<Grade> getGradeList() {
+        return gradeList;
+    }
+
+    public void setGradeList(List<Grade> gradeList) {
+        this.gradeList = gradeList;
     }
 
     public boolean isAvailable(int studentNumber) {

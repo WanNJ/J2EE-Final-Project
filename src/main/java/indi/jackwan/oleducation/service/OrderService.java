@@ -153,24 +153,31 @@ public class OrderService {
         BankAccount account = userOrder.getBankAccount();
         Date beginDate = userOrder.getCourse().getStartTime();
 
+        User user = userOrder.getUser();
+        Class aClass = userOrder.getaClass();
+
         if (oneMonthFlag.before(beginDate)) {
             paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice());
             userOrder.setStatus(OrderStatus.CANCELLED);
-            User user = userOrder.getUser();
+            aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
             user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
             orderRepository.save(userOrder);
+            classRepository.save(aClass);
             return true;
         } else {
             if (current.before(beginDate)) {
                 paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice() * 0.5);
                 userOrder.setStatus(OrderStatus.CANCELLED);
-                User user = userOrder.getUser();
+                aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
                 user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice() * 0.5);
                 orderRepository.save(userOrder);
+                classRepository.save(aClass);
                 return true;
             } else {
                 userOrder.setStatus(OrderStatus.CANCELLED);
+                aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
                 orderRepository.save(userOrder);
+                classRepository.save(aClass);
                 return true;
             }
         }
