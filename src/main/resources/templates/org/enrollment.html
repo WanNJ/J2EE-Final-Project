@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" th:include="layouts/org :: orgPage('Enrollment')">
+
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Enrollment</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form th:action="@{/org/enrollment}" method="post" role="form" autocomplete="off"
+                  data-toggle="validator">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="class-id">Class ID</label>
+                        <input type="text"  name="classId" class="form-control" id="class-id"
+                               placeholder="Class ID" value="" required>
+                    </div>
+
+                    <div class="col-md-5">
+                        <label for="email">User Email</label>
+                        <input type="text" name="email" class="form-control" id="email"
+                               placeholder="Enter User E-mail" value="" required>
+                    </div>
+
+                    <div th:object="${userOrder}" class="col-md-4">
+                        <label for="studentNumber">Student Number</label>
+                        <input type="number" th:field="*{studentNumber}" class="form-control" id="studentNumber"
+                               placeholder="Enter Student Number" value="" required>
+                    </div>
+                </div>
+
+                <div th:object="${bankAccount}" class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="bankAccount">Bank Account Address</label>
+                        <input type="text" th:field="*{accountAddress}" class="form-control" id="bankAccount" placeholder="Enter your bank account." required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Enter your password." required>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">ENROLL</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</html>

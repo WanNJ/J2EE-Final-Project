@@ -123,6 +123,7 @@ public class OrderService {
 
         if (paymentService.transfer(bankAccount.getAccountAddress(), rootBankAccount, userOrder.getActualPrice())) {
             user.addExpenditure(userOrder.getActualPrice());
+            user.addScore(userOrder.getActualPrice());
             userService.save(user);
 
             BankAccount account = bankAccountRepository.findByAccountAddress(bankAccount.getAccountAddress());
@@ -153,26 +154,28 @@ public class OrderService {
         BankAccount account = userOrder.getBankAccount();
         Date beginDate = userOrder.getCourse().getStartTime();
 
+        User user = userOrder.getUser();
+        Class aClass = userOrder.getaClass();
+
+        aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
+        user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
+        user.setScore(user.getScore() - userOrder.getActualPrice());
+        userService.save(user);
+        classRepository.save(aClass);
+
         if (oneMonthFlag.before(beginDate)) {
             paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice());
             userOrder.setStatus(OrderStatus.CANCELLED);
-            User user = userOrder.getUser();
-            user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
-            orderRepository.save(userOrder);
-            return true;
         } else {
             if (current.before(beginDate)) {
                 paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice() * 0.5);
                 userOrder.setStatus(OrderStatus.CANCELLED);
-                User user = userOrder.getUser();
-                user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice() * 0.5);
-                orderRepository.save(userOrder);
-                return true;
             } else {
                 userOrder.setStatus(OrderStatus.CANCELLED);
-                orderRepository.save(userOrder);
-                return true;
             }
         }
+
+        orderRepository.save(userOrder);
+        return true;
     }
 }

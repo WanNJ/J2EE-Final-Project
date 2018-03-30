@@ -24,7 +24,13 @@ public class User {
     private double score;
 
     @OneToMany(mappedBy = "user")
+    private List<ClassSignIn> signInList;
+
+    @OneToMany(mappedBy = "user")
     private List<UserOrder> userOrders;
+
+    @OneToMany(mappedBy = "user")
+    private List<Grade> gradeList;
 
     public Integer getId() { return id; }
 
@@ -88,5 +94,25 @@ public class User {
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public List<ClassSignIn> getSignInList() {
+        return signInList;
+    }
+
+    public void setSignInList(List<ClassSignIn> signInList) {
+        this.signInList = signInList;
+    }
+
+    public List<Grade> getGradeList() {
+        return gradeList;
+    }
+
+    public void setGradeList(List<Grade> gradeList) {
+        this.gradeList = gradeList;
+    }
+
+    public void addScore(double amount) {
+        score = this.score + amount;
     }
 }

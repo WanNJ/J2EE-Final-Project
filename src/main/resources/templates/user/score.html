@@ -5,5 +5,44 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Score</h1>
     </div>
+
+    <div th:if="${user.isVip()==true}" class="container">
+        <div class="alert alert-info text-center" role="alert">
+            As a VIP of our platform, you can transform your scores into real money of your bank account(20 SCORE/USD).
+        </div>
+
+        <div th:if="${user.score != 0}" th:text="'Your current score is ' + ${user.score} + '.'" class="alert alert-info text-center" role="alert"></div>
+
+        <div th:if="${user.score == 0}" th:text="'Your current score is ' + ${user.score} + '. Go and reserve some courses!'" class="alert alert-warning text-center" role="alert"></div>
+
+        <div th:if="${user.score != 0}" class="row">
+            <div class="col-md-12">
+                <form th:action="@{/user/score}" method="post" role="form" autocomplete="off"
+                      data-toggle="validator">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="transfer-amount">Transfer Score Amount</label>
+                            <input type="number" min="0" th:max="${user.score}" class="form-control" name="transferScoreAmount" id="transfer-amount" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="bank-account">Bank Account</label>
+                            <input type="text" class="form-control" name="bankAccount" id="bank-account" required>
+                        </div>
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">TRANSFER</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div th:if="${user.isVip()==false}" class="container">
+        <div class="alert alert-danger" role="alert">
+            You are not in any membership currently! As a result, you don't have the right to transform scores into cash!
+        </div>
+    </div>
 </div>
 </html>
