@@ -115,7 +115,7 @@
     </div>
 
     <div th:if="${userOrder.getStatus().name() == 'EXPIRED'}" class="alert alert-danger" role="alert" >
-        This is an unsuccessful order, because we can't fulfill all of your requirements.
+        This order has already expired.
     </div>
 
     <div th:if="${userOrder.getStatus().name() == 'CANCELLED'}" class="alert alert-danger" role="alert" >

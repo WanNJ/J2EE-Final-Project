@@ -9,11 +9,15 @@ import indi.jackwan.oleducation.repositories.OrderRepository;
 import indi.jackwan.oleducation.utils.Enums.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ScheduledFuture;
 
 @Service("orderService")
 public class OrderService {
@@ -34,6 +38,11 @@ public class OrderService {
     private PaymentService paymentService;
     @Autowired
     private BankAccountRepository bankAccountRepository;
+
+    @Resource
+    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+
+    private ScheduledFuture<?> future;
 
     public UserOrder findById(int id) {
         return orderRepository.findById(id);
@@ -87,6 +96,9 @@ public class OrderService {
             userOrder.setActualPrice(vipService.getDiscount(user.getId()) * userOrder.getStudentNumber() * aClass.getPrice());
 
             orderRepository.save(userOrder);
+
+            invalidateOrderIn15Mins(userOrder.getId());
+
             return true;
         } else {
             return false;
@@ -104,6 +116,7 @@ public class OrderService {
             userOrder.setPaidToOrg(false);
 
             if (autoAllocateOrder(userOrder, course)) {
+                invalidateOrderIn15Mins(userOrder.getId());
                 return OrderStatus.WAITING_TO_BE_PAID;
             }
             else {
@@ -177,5 +190,45 @@ public class OrderService {
 
         orderRepository.save(userOrder);
         return true;
+    }
+
+    private void invalidateOrderIn15Mins(int orderId) {
+        UserOrder order = orderRepository.findById(orderId);
+        if (order != null) {
+            Calendar cal = Calendar.getInstance();
+            // Set delay.
+            cal.add(Calendar.MINUTE, 15);
+            int month = cal.get(Calendar.MONTH) + 1;
+            int day = cal.get(Calendar.DATE);
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            int minute = cal.get(Calendar.MINUTE);
+            int second = cal.get(Calendar.SECOND);
+            String corn = second + " " + minute + " " + hour + " " + day + " " + month + " ?";
+            future = threadPoolTaskScheduler.schedule(new InvalidateOrderListener(order), new CronTrigger(corn));
+        }
+    }
+
+    private class InvalidateOrderListener implements Runnable {
+        private UserOrder order;
+
+        InvalidateOrderListener(UserOrder order) {
+            this.order = order;
+        }
+
+        @Override
+        public void run() {
+            order.setStatus(OrderStatus.EXPIRED);
+
+            Class aClass =  order.getaClass();
+            aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - order.getStudentNumber());
+
+            orderRepository.save(order);
+            classRepository.save(aClass);
+
+            // Close timer.
+            if (future != null) {
+                future.cancel(true);
+            }
+        }
     }
 }
