@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("orderService")
@@ -132,6 +135,45 @@ public class OrderService {
         } else {
             return false;
         }
+    }
 
+    /*
+     * Cancel Order Logic.
+     */
+    public boolean cancelOrder(UserOrder userOrder) {
+        if (userOrder.getStatus() != OrderStatus.PAID)
+            return false;
+
+        Date current = new Date();
+        Date oneMonthFlag = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(oneMonthFlag);
+        c.add(Calendar.MONTH, 1);
+        oneMonthFlag = c.getTime();
+
+        BankAccount account = userOrder.getBankAccount();
+        Date beginDate = userOrder.getCourse().getStartTime();
+
+        if (oneMonthFlag.before(beginDate)) {
+            paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice());
+            userOrder.setStatus(OrderStatus.CANCELLED);
+            User user = userOrder.getUser();
+            user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
+            orderRepository.save(userOrder);
+            return true;
+        } else {
+            if (current.before(beginDate)) {
+                paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice() * 0.5);
+                userOrder.setStatus(OrderStatus.CANCELLED);
+                User user = userOrder.getUser();
+                user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice() * 0.5);
+                orderRepository.save(userOrder);
+                return true;
+            } else {
+                userOrder.setStatus(OrderStatus.CANCELLED);
+                orderRepository.save(userOrder);
+                return true;
+            }
+        }
     }
 }

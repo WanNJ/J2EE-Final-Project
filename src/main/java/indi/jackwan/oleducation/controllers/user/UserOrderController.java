@@ -112,12 +112,16 @@ public class UserOrderController {
     }
 
     @RequestMapping(value = "/user/order/{orderId}/cancel", method = RequestMethod.POST)
-    public String placeOrder(Model model, HttpSession session, @PathVariable(value = "orderId")
+    public String cancelOrder(Model model, HttpSession session, @PathVariable(value = "orderId")
     final int orderId, RedirectAttributes redir) {
         User currentUser = (User) session.getAttribute("user");
         UserOrder userOrder = orderService.findById(orderId);
 
-
+        if (orderService.cancelOrder(userOrder)) {
+            redir.addFlashAttribute("successMessage", "Your order has been cancelled successfully!");
+        } else {
+            redir.addFlashAttribute("errorMessage", "You failed, babe!");
+        }
 
         return "redirect:/user/order/" + orderId;
     }
