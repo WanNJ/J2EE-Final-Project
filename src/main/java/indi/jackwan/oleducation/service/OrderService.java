@@ -123,6 +123,7 @@ public class OrderService {
 
         if (paymentService.transfer(bankAccount.getAccountAddress(), rootBankAccount, userOrder.getActualPrice())) {
             user.addExpenditure(userOrder.getActualPrice());
+            user.addScore(userOrder.getActualPrice());
             userService.save(user);
 
             BankAccount account = bankAccountRepository.findByAccountAddress(bankAccount.getAccountAddress());
@@ -156,30 +157,25 @@ public class OrderService {
         User user = userOrder.getUser();
         Class aClass = userOrder.getaClass();
 
+        aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
+        user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
+        user.setScore(user.getScore() - userOrder.getActualPrice());
+        userService.save(user);
+        classRepository.save(aClass);
+
         if (oneMonthFlag.before(beginDate)) {
             paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice());
             userOrder.setStatus(OrderStatus.CANCELLED);
-            aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
-            user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
-            orderRepository.save(userOrder);
-            classRepository.save(aClass);
-            return true;
         } else {
             if (current.before(beginDate)) {
                 paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice() * 0.5);
                 userOrder.setStatus(OrderStatus.CANCELLED);
-                aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
-                user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice() * 0.5);
-                orderRepository.save(userOrder);
-                classRepository.save(aClass);
-                return true;
             } else {
                 userOrder.setStatus(OrderStatus.CANCELLED);
-                aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
-                orderRepository.save(userOrder);
-                classRepository.save(aClass);
-                return true;
             }
         }
+
+        orderRepository.save(userOrder);
+        return true;
     }
 }

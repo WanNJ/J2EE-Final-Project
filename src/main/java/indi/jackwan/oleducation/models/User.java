@@ -111,4 +111,8 @@ public class User {
     public void setGradeList(List<Grade> gradeList) {
         this.gradeList = gradeList;
     }
+
+    public void addScore(double amount) {
+        score = this.score + amount;
+    }
 }
