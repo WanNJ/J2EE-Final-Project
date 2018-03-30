@@ -48,4 +48,12 @@ public class BankAccount {
     public void setBalence(double balence) {
         this.balence = balence;
     }
+
+    public void pay(double amount) {
+        balence = balence - amount;
+    }
+
+    public void receive(double amount) {
+        balence = balence + amount;
+    }
 }

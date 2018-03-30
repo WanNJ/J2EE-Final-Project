@@ -7,12 +7,16 @@ import indi.jackwan.oleducation.repositories.CourseRepository;
 import indi.jackwan.oleducation.repositories.OrderRepository;
 import indi.jackwan.oleducation.utils.Enums.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service("orderService")
 public class OrderService {
+    @Value("${app.bankaccount.root}")
+    private String rootBankAccount;
+
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -23,6 +27,8 @@ public class OrderService {
     private UserService userService;
     @Autowired
     private VipService vipService;
+    @Autowired
+    private PaymentService paymentService;
 
     public UserOrder findById(int id) {
         return orderRepository.findById(id);
@@ -104,5 +110,23 @@ public class OrderService {
         } else {
             return OrderStatus.INVALID;
         }
+    }
+
+    public boolean payForOrder(User user, UserOrder userOrder, BankAccount bankAccount) {
+        if (userOrder.getStatus() != OrderStatus.WAITING_TO_BE_PAID)
+            return false;
+
+        if (paymentService.transfer(bankAccount.getAccountAddress(), rootBankAccount, userOrder.getActualPrice())) {
+
+            user.addExpenditure(userOrder.getActualPrice());
+            userOrder.setStatus(OrderStatus.PAID);
+
+            userService.save(user);
+            orderRepository.save(userOrder);
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

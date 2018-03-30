@@ -4,9 +4,9 @@ import indi.jackwan.oleducation.models.BankAccount;
 import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.models.UserOrder;
 import indi.jackwan.oleducation.service.OrderService;
+import indi.jackwan.oleducation.service.PaymentService;
 import indi.jackwan.oleducation.service.UserService;
 import indi.jackwan.oleducation.utils.Enums.OrderStatus;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +25,8 @@ public class UserOrderController {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private PaymentService paymentService;
 
     @RequestMapping(value = "/user/orders", method = RequestMethod.GET)
     public String getOrderPage(Model model, HttpSession session, RedirectAttributes redir) {
@@ -88,5 +90,24 @@ public class UserOrderController {
         model.addAttribute("userOrder", userOrder);
 
         return "user/order";
+    }
+
+    @RequestMapping(value = "/user/order/{orderId}/placeorder", method = RequestMethod.POST)
+    public String placeOrder(Model model, HttpSession session, @PathVariable(value = "orderId") final int orderId,
+                             @ModelAttribute(value = "bankAccount") BankAccount account, RedirectAttributes redir) {
+        User currentUser = (User) session.getAttribute("user");
+        UserOrder userOrder = orderService.findById(orderId);
+
+        if (paymentService.validate(account)) {
+            if(orderService.payForOrder(currentUser, userOrder, account)) {
+                redir.addFlashAttribute("successMessage", "Your order has been paid!");
+            } else {
+                redir.addFlashAttribute("errorMessage", "Oops, something went wrong! Please try again later.");
+            }
+        } else {
+            redir.addFlashAttribute("errorMessage", "Wrong password or account address!");
+        }
+
+        return "redirect:/user/order/" + orderId;
     }
 }
