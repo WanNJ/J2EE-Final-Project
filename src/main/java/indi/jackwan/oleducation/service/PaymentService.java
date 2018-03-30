@@ -21,7 +21,8 @@ public class PaymentService {
 
     public boolean validate(BankAccount bankAccount) {
         BankAccount account = bankAccountRepository.findByAccountAddress(bankAccount.getAccountAddress());
-        return account.getPassword().equals(bankAccount.getPassword());
+        return account != null && account.getPassword().equals(bankAccount.getPassword());
+
     }
 
     public synchronized boolean transfer(String payerAddress, String receiverAddress, double amount) {

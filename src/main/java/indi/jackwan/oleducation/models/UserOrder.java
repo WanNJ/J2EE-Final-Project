@@ -42,6 +42,9 @@ public class UserOrder {
     @ManyToOne
     private Organization organization;
 
+    @ManyToOne
+    private BankAccount bankAccount;
+
     public int getId() { return id; }
 
     public void setId(int id) {
@@ -118,6 +121,14 @@ public class UserOrder {
 
     public void setStudentNumber(int studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public Course getCourse() {

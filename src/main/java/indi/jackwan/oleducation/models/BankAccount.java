@@ -1,9 +1,7 @@
 package indi.jackwan.oleducation.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class BankAccount {
@@ -16,6 +14,9 @@ public class BankAccount {
     private String password;
     @Column(nullable = false)
     private double balence;
+
+    @OneToMany(mappedBy = "bankAccount")
+    private List<UserOrder> order;
 
     public int getId() {
         return id;
@@ -47,6 +48,14 @@ public class BankAccount {
 
     public void setBalence(double balence) {
         this.balence = balence;
+    }
+
+    public List<UserOrder> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<UserOrder> order) {
+        this.order = order;
     }
 
     public void pay(double amount) {

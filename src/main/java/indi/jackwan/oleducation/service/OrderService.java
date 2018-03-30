@@ -2,6 +2,7 @@ package indi.jackwan.oleducation.service;
 
 import indi.jackwan.oleducation.models.*;
 import indi.jackwan.oleducation.models.Class;
+import indi.jackwan.oleducation.repositories.BankAccountRepository;
 import indi.jackwan.oleducation.repositories.ClassRepository;
 import indi.jackwan.oleducation.repositories.CourseRepository;
 import indi.jackwan.oleducation.repositories.OrderRepository;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("orderService")
@@ -29,6 +32,8 @@ public class OrderService {
     private VipService vipService;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
 
     public UserOrder findById(int id) {
         return orderRepository.findById(id);
@@ -117,16 +122,57 @@ public class OrderService {
             return false;
 
         if (paymentService.transfer(bankAccount.getAccountAddress(), rootBankAccount, userOrder.getActualPrice())) {
-
             user.addExpenditure(userOrder.getActualPrice());
-            userOrder.setStatus(OrderStatus.PAID);
-
             userService.save(user);
+
+            BankAccount account = bankAccountRepository.findByAccountAddress(bankAccount.getAccountAddress());
+
+            userOrder.setBankAccount(account);
+            userOrder.setStatus(OrderStatus.PAID);
             orderRepository.save(userOrder);
             return true;
         } else {
             return false;
         }
+    }
 
+    /*
+     * Cancel Order Logic.
+     */
+    public boolean cancelOrder(UserOrder userOrder) {
+        if (userOrder.getStatus() != OrderStatus.PAID)
+            return false;
+
+        Date current = new Date();
+        Date oneMonthFlag = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(oneMonthFlag);
+        c.add(Calendar.MONTH, 1);
+        oneMonthFlag = c.getTime();
+
+        BankAccount account = userOrder.getBankAccount();
+        Date beginDate = userOrder.getCourse().getStartTime();
+
+        if (oneMonthFlag.before(beginDate)) {
+            paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice());
+            userOrder.setStatus(OrderStatus.CANCELLED);
+            User user = userOrder.getUser();
+            user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
+            orderRepository.save(userOrder);
+            return true;
+        } else {
+            if (current.before(beginDate)) {
+                paymentService.transfer(rootBankAccount, account.getAccountAddress(), userOrder.getActualPrice() * 0.5);
+                userOrder.setStatus(OrderStatus.CANCELLED);
+                User user = userOrder.getUser();
+                user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice() * 0.5);
+                orderRepository.save(userOrder);
+                return true;
+            } else {
+                userOrder.setStatus(OrderStatus.CANCELLED);
+                orderRepository.save(userOrder);
+                return true;
+            }
+        }
     }
 }
