@@ -78,6 +78,10 @@ public class User {
         this.expenditure = expenditure;
     }
 
+    public void addExpenditure(double amount) {
+        expenditure = this.expenditure + amount;
+    }
+
     public double getScore() {
         return score;
     }
