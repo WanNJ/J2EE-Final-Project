@@ -6,6 +6,7 @@ import indi.jackwan.oleducation.interceptors.SessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -33,6 +34,11 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Bean
     AccessManager getManagerAccessManager() {return new AccessManager("MANAGER"); }
+
+    @Bean
+    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+        return new ThreadPoolTaskScheduler();
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
