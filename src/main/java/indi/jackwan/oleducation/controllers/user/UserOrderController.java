@@ -110,4 +110,15 @@ public class UserOrderController {
 
         return "redirect:/user/order/" + orderId;
     }
+
+    @RequestMapping(value = "/user/order/{orderId}/cancel", method = RequestMethod.POST)
+    public String placeOrder(Model model, HttpSession session, @PathVariable(value = "orderId")
+    final int orderId, RedirectAttributes redir) {
+        User currentUser = (User) session.getAttribute("user");
+        UserOrder userOrder = orderService.findById(orderId);
+
+
+
+        return "redirect:/user/order/" + orderId;
+    }
 }

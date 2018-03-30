@@ -2,6 +2,7 @@ package indi.jackwan.oleducation.service;
 
 import indi.jackwan.oleducation.models.*;
 import indi.jackwan.oleducation.models.Class;
+import indi.jackwan.oleducation.repositories.BankAccountRepository;
 import indi.jackwan.oleducation.repositories.ClassRepository;
 import indi.jackwan.oleducation.repositories.CourseRepository;
 import indi.jackwan.oleducation.repositories.OrderRepository;
@@ -29,6 +30,8 @@ public class OrderService {
     private VipService vipService;
     @Autowired
     private PaymentService paymentService;
+    @Autowired
+    private BankAccountRepository bankAccountRepository;
 
     public UserOrder findById(int id) {
         return orderRepository.findById(id);
@@ -117,11 +120,13 @@ public class OrderService {
             return false;
 
         if (paymentService.transfer(bankAccount.getAccountAddress(), rootBankAccount, userOrder.getActualPrice())) {
-
             user.addExpenditure(userOrder.getActualPrice());
-            userOrder.setStatus(OrderStatus.PAID);
-
             userService.save(user);
+
+            BankAccount account = bankAccountRepository.findByAccountAddress(bankAccount.getAccountAddress());
+
+            userOrder.setBankAccount(account);
+            userOrder.setStatus(OrderStatus.PAID);
             orderRepository.save(userOrder);
             return true;
         } else {
