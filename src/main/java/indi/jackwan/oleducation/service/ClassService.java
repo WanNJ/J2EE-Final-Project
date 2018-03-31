@@ -1,10 +1,8 @@
 package indi.jackwan.oleducation.service;
 
 
+import indi.jackwan.oleducation.models.*;
 import indi.jackwan.oleducation.models.Class;
-import indi.jackwan.oleducation.models.ClassSignIn;
-import indi.jackwan.oleducation.models.Organization;
-import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.repositories.ClassRepository;
 import indi.jackwan.oleducation.repositories.ClassSignInRepository;
 import indi.jackwan.oleducation.repositories.GradeRepository;
@@ -42,6 +40,27 @@ public class ClassService {
                 return SignInStudentResult.USER_NOT_IN_CLASS;
             }
         }
+    }
 
+    public SignInStudentResult recordGrades(double score, int classId, String email, Organization organization) {
+        User user = userService.findByEmail(email);
+        Class aClass = classRepository.findByIdAndOrganization(classId, organization);
+
+        if (user == null)
+            return SignInStudentResult.NO_SUCH_USER;
+        else if (aClass == null)
+            return SignInStudentResult.NO_SUCH_CLASS_OR_NO_ACCESS_TO_CLASS;
+        else {
+            if (user.getClassList().contains(aClass)) {
+                Grade grade = new Grade();
+                grade.setaClass(aClass);
+                grade.setUser(user);
+                grade.setScore(score);
+                gradeRepository.save(grade);
+                return SignInStudentResult.SUCCESS;
+            } else {
+                return SignInStudentResult.USER_NOT_IN_CLASS;
+            }
+        }
     }
 }

@@ -1,9 +1,13 @@
 package indi.jackwan.oleducation.models;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class ClassSignIn {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,6 +17,8 @@ public class ClassSignIn {
     private Class aClass;
     @ManyToOne
     private User user;
+
+    @CreatedDate
     private Date signInTime;
 
     public Class getaClass() {
