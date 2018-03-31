@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.UUID;
 
 @Service("userService")
@@ -113,6 +114,10 @@ public class UserService {
 
     public User findById(int id) {
         return userRepository.findById(id);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     public void save(User user) {

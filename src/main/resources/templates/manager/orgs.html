@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/manager :: managerPage('Organizations')">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Organizations</h1>
+    </div>
+
+    <div th:if="${!organizationList.isEmpty()}" class="table-responsive">
+        <table id="org_table" class="table table-striped table-sm table-hover text-center">
+            <thead>
+            <tr>
+                <th>Organization ID</th>
+                <th>Organization Code</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Teacher Number</th>
+                <th>Email Address</th>
+            </tr>
+            </thead>
+            <tbody class="clickable-tbody perfect-center">
+            <tr th:each="org : ${organizationList}">
+                <td th:text="${org.id}"></td>
+                <td th:text="${org.orgCode}"></td>
+                <td th:text="${org.name}"></td>
+                <td th:text="${org.location}"></td>
+                <td th:text="${org.teacherNum}"></td>
+                <td th:text="${org.email}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <script>
+            $(document).ready(function () {
+                $('#org_table').find('> tbody > tr').click(function (e) {
+                    e.preventDefault();
+                    let orgId = $(this)[0].children[0].innerText;
+                    window.location.href = "/manager/org/" + orgId;
+                });
+            });
+        </script>
+    </div>
+
+    <div th:if="${organizationList.isEmpty()}" class="alert alert-warning text-center" role="alert">
+        There's no organizations currently!
+    </div>
+</div>
+</html>

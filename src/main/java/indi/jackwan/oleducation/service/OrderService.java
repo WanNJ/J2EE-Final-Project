@@ -38,6 +38,8 @@ public class OrderService {
     private PaymentService paymentService;
     @Autowired
     private BankAccountRepository bankAccountRepository;
+    @Autowired
+    private OrgService orgService;
 
     @Resource
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
@@ -209,6 +211,18 @@ public class OrderService {
 
         orderRepository.save(userOrder);
         return true;
+    }
+
+    public void setAllOrdersPaidToOrgByOrgId(int orgId) {
+        Organization organization = orgService.findByOrgId(orgId);
+        List<UserOrder> userOrders = orderRepository.findUserOrdersByOrganization(organization);
+
+        for (UserOrder order : userOrders) {
+            if (!order.isPaidToOrg() && order.getStatus() == OrderStatus.PAID) {
+                order.setPaidToOrg(true);
+                orderRepository.save(order);
+            }
+        }
     }
 
     private void invalidateOrderIn15Mins(int orderId) {

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/manager :: managerPage('Users')">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Users</h1>
+    </div>
+
+    <div th:if="${!userList.isEmpty()}" class="table-responsive">
+        <table id="org_table" class="table table-striped table-sm table-hover text-center">
+            <thead>
+            <tr>
+                <th>User ID</th>
+                <th>E-mail</th>
+                <th>Nickname</th>
+                <th>expenditure</th>
+                <th>Available Score</th>
+            </tr>
+            </thead>
+            <tbody class="perfect-center">
+            <tr th:each="user : ${userList}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.nickname}"></td>
+                <td th:text="${user.expenditure}"></td>
+                <td th:text="${user.score}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${userList.isEmpty()}" class="alert alert-warning text-center" role="alert">
+        There's no users currently!
+    </div>
+</div>
+</html>
