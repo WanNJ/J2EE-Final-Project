@@ -8,8 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+@SuppressWarnings("SpringDataMethodInconsistencyInspection")
 public interface ClassSignInRepository extends CrudRepository<ClassSignIn, Long> {
     ClassSignIn findById(int id);
-    List<ClassSignIn> findGradesByAClass(Class aClass);
-    List<ClassSignIn> findGradesByUser(User user);
+    List<ClassSignIn> findAllByUserAndAClass(User user, Class aClass);
+    List<ClassSignIn> findAllByUser(User user);
 }
