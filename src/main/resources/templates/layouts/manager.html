@@ -44,31 +44,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/manager/payment" th:classappend="${activeTab=='Payment'} ? active : ''">
-                            <span data-feather="package"></span>
-                            Payment
+                        <a class="nav-link" href="/manager/organizations" th:classappend="${activeTab=='Organizations'} ? active : ''">
+                            <span data-feather="users"></span>
+                            Organizations
                         </a>
                     </li>
 
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        <span>Statistics</span>
-                    </h6>
                     <li class="nav-item">
-                        <a class="nav-link" href="/manager/organization-statistics" th:classappend="${activeTab=='Organization Statistics'} ? active : ''">
-                            <span data-feather="users"></span>
-                            Organization Statistics
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manager/user-statistics" th:classappend="${activeTab=='User Statistics'} ? active : ''">
+                        <a class="nav-link" href="/manager/users" th:classappend="${activeTab=='Users'} ? active : ''">
                             <span data-feather="user"></span>
-                            User Statistics
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manager/financial-statistics" th:classappend="${activeTab=='Financial Statistics'} ? active : ''">
-                            <span data-feather="dollar-sign"></span>
-                            Financial Statistics
+                            Users
                         </a>
                     </li>
                 </ul>

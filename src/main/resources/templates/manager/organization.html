@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layouts/manager :: managerPage('Organizations')">
+<div th:fragment="content">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2" th:text="${organization.getName()}"></h1>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover text-center">
+            <thead>
+            <tr>
+                <th>Organization ID</th>
+                <th>Organization Code</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Teacher Number</th>
+                <th>Email Address</th>
+            </tr>
+            </thead>
+            <tbody class="perfect-center">
+            <tr>
+                <td th:text="${organization.id}"></td>
+                <td th:text="${organization.orgCode}"></td>
+                <td th:text="${organization.name}"></td>
+                <td th:text="${organization.location}"></td>
+                <td th:text="${organization.teacherNum}"></td>
+                <td th:text="${organization.email}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${unpaidAmount != 0}">
+        <div class="alert alert-info text-center" role="alert"
+             th:text="'Our platform currently owes this organization ' + ${unpaidAmount} + ' USD(80%). Please fill the following form in order to pay.'"></div>
+
+        <form th:action="@{/manager/org/{orgId}/pay(orgId=${organization.id})}" method="post" role="form"
+              autocomplete="off"
+              data-toggle="validator">
+
+            <div class="col-md-12">
+                <label for="bank-account">Bank Account</label>
+                <input type="text" class="form-control" name="bankAccount" id="bank-account" required>
+            </div>
+
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">PAY</button>
+        </form>
+    </div>
+
+    <div th:if="${unpaidAmount == 0}" class="alert alert-warning text-center" role="alert">
+        Our platform doesn't need to pay to this organization currently!
+    </div>
+</div>
+</html>

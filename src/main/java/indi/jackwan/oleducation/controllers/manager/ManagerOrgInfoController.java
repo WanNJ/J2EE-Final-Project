@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class ManagerOrgController {
+public class ManagerOrgInfoController {
     @Autowired
     private OrgService orgService;
     @Autowired
