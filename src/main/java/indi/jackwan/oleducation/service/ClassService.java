@@ -10,6 +10,9 @@ import indi.jackwan.oleducation.utils.Enums.SignInStudentResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service("orgClassService")
 public class ClassService {
     @Autowired
@@ -20,6 +23,16 @@ public class ClassService {
     private ClassSignInRepository classSignInRepository;
     @Autowired
     private GradeRepository gradeRepository;
+
+    public List<ClassSignIn> getSignInListByUserAndClass(User user, int classId) {
+        Class aClass = classRepository.findById(classId);
+        return classSignInRepository.findAllByUserAndAClass(user, aClass);
+    }
+
+    public List<Grade> getGradesListByUserAndClass(User user, int classId) {
+        Class aClass = classRepository.findById(classId);
+        return gradeRepository.findGradesByUserAndAClass(user, aClass);
+    }
 
     public SignInStudentResult signInStudent(int classId, String email, Organization organization) {
         User user = userService.findByEmail(email);
