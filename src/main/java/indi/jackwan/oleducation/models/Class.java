@@ -32,6 +32,9 @@ public class Class {
     @OneToMany(mappedBy = "aClass")
     private List<Grade> gradeList;
 
+    @ManyToMany(fetch=FetchType.EAGER, mappedBy = "classList")
+    private List<User> userList;
+
     public int getId() {
         return id;
     }
@@ -110,6 +113,14 @@ public class Class {
 
     public void setGradeList(List<Grade> gradeList) {
         this.gradeList = gradeList;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 
     public boolean isAvailable(int studentNumber) {

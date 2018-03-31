@@ -26,6 +26,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<ClassSignIn> signInList;
 
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "user_class",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "class_id") })
+    private List<Class> classList;
+
     @OneToMany(mappedBy = "user")
     private List<UserOrder> userOrders;
 
@@ -110,6 +116,14 @@ public class User {
 
     public void setGradeList(List<Grade> gradeList) {
         this.gradeList = gradeList;
+    }
+
+    public List<Class> getClassList() {
+        return classList;
+    }
+
+    public void setClassList(List<Class> classList) {
+        this.classList = classList;
     }
 
     public void addScore(double amount) {

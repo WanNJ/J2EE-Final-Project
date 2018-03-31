@@ -4,7 +4,63 @@
 
 <div th:fragment="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Grades Record</h1>
+        <h2 class="h2">SignIn Record</h2>
+    </div>
+
+    <div class="col-md-12">
+        <form th:action="@{/org/grades/signin}" method="post" role="form" autocomplete="off"
+              data-toggle="validator">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="class-id">Class ID</label>
+                    <input type="text" name="classId" class="form-control" id="class-id"
+                           placeholder="Class ID" value="" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="email">User Email</label>
+                    <input type="text" name="email" class="form-control" id="email"
+                           placeholder="Enter User E-mail" value="" required>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
+        </form>
+    </div>
+
+    <br>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h2 class="h2">Grades Record</h2>
+    </div>
+
+    <div class="col-md-12">
+        <form th:action="@{/org/grades/grade}" method="post" role="form" autocomplete="off"
+              data-toggle="validator">
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="score">Score</label>
+                    <input type="text" name="score" class="form-control" id="score"
+                           placeholder="Enter Score" value="" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="class-id">Class ID</label>
+                    <input type="text" name="classId" class="form-control" id="class-id-2"
+                           placeholder="Enter Class ID" value="" required>
+                </div>
+
+                <div class="col-md-5">
+                    <label for="email">User Email</label>
+                    <input type="text" name="email" class="form-control" id="email-2"
+                           placeholder="Enter User E-mail" value="" required>
+                </div>
+            </div>
+
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Insert Grades</button>
+        </form>
     </div>
 </div>
 

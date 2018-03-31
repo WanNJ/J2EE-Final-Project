@@ -58,6 +58,7 @@ public class OrderService {
 
     private boolean autoAllocateOrder(UserOrder userOrder, Course course) {
         List<Class> classList = classRepository.findClassesByCourse(course);
+        User user = userOrder.getUser();
 
         if (classList == null)
             return false;
@@ -68,7 +69,14 @@ public class OrderService {
                 userOrder.setaClass(aClass);
                 userOrder.setActualPrice(vipService.getDiscount(userOrder.getUser().getId()) * userOrder.getStudentNumber() * aClass.getPrice());
                 userOrder.setStatus(OrderStatus.WAITING_TO_BE_PAID);
+
+                // Add user to class.
+                user.getClassList().add(aClass);
+                aClass.getUserList().add(user);
+
                 classRepository.save(aClass);
+                userService.save(user);
+
                 orderRepository.save(userOrder);
                 return true;
             }
@@ -85,7 +93,13 @@ public class OrderService {
 
             // Update current studentNumber
             aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() + userOrder.getStudentNumber());
+
+            // Add user to class.
+            user.getClassList().add(aClass);
+            aClass.getUserList().add(user);
+
             classRepository.save(aClass);
+            userService.save(user);
 
             userOrder.setUser(user);
             userOrder.setOrganization(organization);
@@ -171,6 +185,11 @@ public class OrderService {
         Class aClass = userOrder.getaClass();
 
         aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - userOrder.getStudentNumber());
+
+        // Remove user from class.
+        user.getClassList().remove(aClass);
+        aClass.getUserList().remove(user);
+
         user.setExpenditure(user.getExpenditure() - userOrder.getActualPrice());
         user.setScore(user.getScore() - userOrder.getActualPrice());
         userService.save(user);
@@ -217,11 +236,17 @@ public class OrderService {
 
         @Override
         public void run() {
+            User user = order.getUser();
             order.setStatus(OrderStatus.EXPIRED);
 
             Class aClass =  order.getaClass();
             aClass.setCurrentStudentNumber(aClass.getCurrentStudentNumber() - order.getStudentNumber());
 
+            // Remove user from class.
+            user.getClassList().remove(aClass);
+            aClass.getUserList().remove(user);
+
+            userService.save(user);
             orderRepository.save(order);
             classRepository.save(aClass);
 
