@@ -65,8 +65,8 @@ public class UserOrderController {
 
         if (result == OrderStatus.WAITING_TO_BE_PAID) {
             // Actually, classes are assigned right after the order is placed.
-            redir.addFlashAttribute("successMessage", "Your reservation has been made, please pay the bill within 15 minutes!" +
-                    "Note that you will not be assigned to any class utill 2 weeks before the class begin. If we can't fulfill your requirements, full refund will be provided.");
+            redir.addFlashAttribute("successMessage", "Your reservation has been made, please pay the bill within 15 minutes! " +
+                    "If we can't fulfill your requirements, full refund will be provided.");
         }
         else if (result == OrderStatus.INVALID) {
             redir.addFlashAttribute("errorMessage", "Oops, something went wrong with your order!");

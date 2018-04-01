@@ -50,6 +50,10 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    public List<UserOrder> findUserOrdersByStatus(OrderStatus status) {
+        return orderRepository.findUserOrdersByStatus(status);
+    }
+
     public List<UserOrder> findUserOrdersByOrganization(Organization organization) {
         return orderRepository.findUserOrdersByOrganization(organization);
     }

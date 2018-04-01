@@ -8,3 +8,4 @@ Final project for J2EE course.
 3. Front-end optimization, like show different color according to different order status.
 4. Statistics calculation methods optimization to increase scalability.
 5. UI components optimization. (Calender disable.)
+6. More concerns on order reservation logic.
