@@ -13,4 +13,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findById(int id);
     User findByEmail(String email);
     User findByConfirmationToken(String confirmationToken);
+    long count();
+    @SuppressWarnings("SpringDataMethodInconsistencyInspection")
+    int countUsersByEnabledAndIsVip(boolean enable, boolean isVip);
+    int countUsersByExpenditureGreaterThan(double value);
 }

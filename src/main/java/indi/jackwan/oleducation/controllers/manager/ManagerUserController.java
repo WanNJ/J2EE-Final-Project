@@ -2,6 +2,7 @@ package indi.jackwan.oleducation.controllers.manager;
 
 import indi.jackwan.oleducation.models.User;
 import indi.jackwan.oleducation.service.UserService;
+import indi.jackwan.oleducation.utils.statistics.UserStatisticSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class ManagerUserController {
 
         List<User> userList = userService.findAllUsers();
         model.addAttribute("userList", userList);
+
+        UserStatisticSet userStatisticSet = userService.getUserStatisticSet();
+        model.addAttribute("userStatisticSet", userStatisticSet);
 
         return "manager/users";
     }

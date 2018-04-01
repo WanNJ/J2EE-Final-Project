@@ -4,7 +4,30 @@
       th:include="layouts/manager :: managerPage('Organizations')">
 <div th:fragment="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Organizations</h1>
+        <h2 class="h2">Overall Statistics</h2>
+    </div>
+
+    <table class="table table-striped table-sm table-hover text-center">
+        <thead>
+        <tr>
+            <th>Total Application Number</th>
+            <th>Approved Organization Number</th>
+            <th>Organizations Having Courses</th>
+            <th>Organizations Without Courses</th>
+        </tr>
+        </thead>
+        <tbody class="perfect-center">
+        <tr>
+            <td th:text="${orgStatisticSet.totalApplicationNumber}"></td>
+            <td th:text="${orgStatisticSet.approvedApplicationNumber}"></td>
+            <td th:text="${orgStatisticSet.orgWithCoursesNumber}"></td>
+            <td th:text="${orgStatisticSet.orgWithoutCoursesNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h2 class="h2">All Organizations</h2>
     </div>
 
     <div th:if="${!organizationList.isEmpty()}" class="table-responsive">

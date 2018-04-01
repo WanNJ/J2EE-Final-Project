@@ -8,6 +8,7 @@ import indi.jackwan.oleducation.repositories.UserRepository;
 import indi.jackwan.oleducation.utils.Enums.LoginResult;
 import indi.jackwan.oleducation.utils.Enums.RegisterResult;
 import indi.jackwan.oleducation.utils.Login.LoginUtil;
+import indi.jackwan.oleducation.utils.statistics.UserStatisticSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -122,5 +123,16 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public UserStatisticSet getUserStatisticSet() {
+        UserStatisticSet userStatisticSet = new UserStatisticSet();
+
+        userStatisticSet.totalUserNumber = (int) userRepository.count();
+        userStatisticSet.activatedUesrNumber = userRepository.countUsersByEnabledAndIsVip(true, true);
+        userStatisticSet.inactivatedUserNumber = userStatisticSet.totalUserNumber - userStatisticSet.activatedUesrNumber;
+        userStatisticSet.expendedUserNumber = userRepository.countUsersByExpenditureGreaterThan(0);
+
+        return userStatisticSet;
     }
 }

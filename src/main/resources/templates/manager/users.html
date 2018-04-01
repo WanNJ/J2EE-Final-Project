@@ -4,7 +4,30 @@
       th:include="layouts/manager :: managerPage('Users')">
 <div th:fragment="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Users</h1>
+        <h2 class="h2">Overall Statistics</h2>
+    </div>
+
+    <table class="table table-striped table-sm table-hover text-center">
+        <thead>
+        <tr>
+            <th>Total User Number</th>
+            <th>Activated User Number</th>
+            <th>Inactivated User Number</th>
+            <th>Number of Users who Has Bought Courses</th>
+        </tr>
+        </thead>
+        <tbody class="perfect-center">
+        <tr>
+            <td th:text="${userStatisticSet.totalUserNumber}"></td>
+            <td th:text="${userStatisticSet.activatedUesrNumber}"></td>
+            <td th:text="${userStatisticSet.inactivatedUserNumber}"></td>
+            <td th:text="${userStatisticSet.expendedUserNumber}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h2 class="h2">Users</h2>
     </div>
 
     <div th:if="${!userList.isEmpty()}" class="table-responsive">
