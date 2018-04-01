@@ -139,4 +139,8 @@ public class OrgService {
 
         return orgStatisticSet;
     }
+
+    public List<UserOrder> getAllOrdersByOrg(Organization organization) {
+        return orderRepository.findUserOrdersByOrganization(organization);
+    }
 }
