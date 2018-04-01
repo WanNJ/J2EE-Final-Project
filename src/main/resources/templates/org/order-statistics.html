@@ -4,11 +4,34 @@
 
 <div th:fragment="content">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-        <h1 class="h2">Order Statistics</h1>
+        <h2 class="h2">Order Statistics</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover text-center">
+            <thead>
+            <tr>
+                <th>Total Order Number</th>
+                <th>Valid Order Number</th>
+                <th>Cancelled Order Number</th>
+            </tr>
+            </thead>
+            <tbody class="perfect-center">
+            <tr>
+                <td th:text="${orderStatisticSet.totalOrderNumber}"></td>
+                <td th:text="${orderStatisticSet.validOrderNumber}"></td>
+                <td th:text="${orderStatisticSet.cancelledOrderNumber}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h2 class="h2">All Orders</h2>
     </div>
 
     <div class="table-responsive" th:if="${userOrderList.isEmpty()==false}">
-        <table id="order_table" class="table table-striped table-sm table-hover text-center">
+        <table class="table table-striped table-sm table-hover text-center">
             <thead>
             <tr>
                 <th>Order ID</th>

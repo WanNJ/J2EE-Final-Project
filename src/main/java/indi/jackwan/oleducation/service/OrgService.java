@@ -14,6 +14,7 @@ import indi.jackwan.oleducation.utils.Enums.RegisterResult;
 import indi.jackwan.oleducation.utils.Enums.ReleaseCourseResult;
 import indi.jackwan.oleducation.utils.Login.LoginUtil;
 import indi.jackwan.oleducation.utils.Register.OrgRegister;
+import indi.jackwan.oleducation.utils.statistics.OrgOrderStatisticSet;
 import indi.jackwan.oleducation.utils.statistics.OrgStatisticSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -118,6 +119,28 @@ public class OrgService {
         }
 
         return unpaidAmount * 0.8;
+    }
+
+    public double getTotalOrderAmountByOrg(Organization organization) {
+        List<UserOrder> userOrders = orderRepository.findUserOrdersByOrganization(organization);
+        double amount = 0;
+
+        for (UserOrder order : userOrders) {
+            if (order.getStatus() == OrderStatus.PAID)
+                amount += order.getActualPrice();
+        }
+
+        return amount;
+    }
+
+    public OrgOrderStatisticSet getOrgOrderStatisticSet(Organization organization) {
+        OrgOrderStatisticSet set = new OrgOrderStatisticSet();
+
+        set.totalOrderNumber = orderRepository.countUserOrdersByOrganization(organization);
+        set.validOrderNumber = orderRepository.countUserOrdersByOrganizationAndStatus(organization, OrderStatus.PAID);
+        set.cancelledOrderNumber = orderRepository.countUserOrdersByOrganizationAndStatus(organization, OrderStatus.CANCELLED);
+
+        return set;
     }
 
     // TODO: QUERY OPTIMIZATION NEEDED
