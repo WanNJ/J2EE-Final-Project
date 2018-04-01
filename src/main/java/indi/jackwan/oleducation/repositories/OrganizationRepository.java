@@ -11,4 +11,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Organization findByName(String name);
     Organization findByOrgCode(String orgCode);
     List<Organization> findByDeclinedAndEnabled(boolean declined, boolean approved);
+    long count();
+    int countOrganizationsByEnabledAndDeclined(boolean enabled, boolean declined);
+    int countOrganizationsByCoursesIsNotNull();
 }

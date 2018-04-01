@@ -14,6 +14,7 @@ import indi.jackwan.oleducation.utils.Enums.RegisterResult;
 import indi.jackwan.oleducation.utils.Enums.ReleaseCourseResult;
 import indi.jackwan.oleducation.utils.Login.LoginUtil;
 import indi.jackwan.oleducation.utils.Register.OrgRegister;
+import indi.jackwan.oleducation.utils.statistics.OrgStatisticSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -117,5 +118,25 @@ public class OrgService {
         }
 
         return unpaidAmount * 0.8;
+    }
+
+    // TODO: QUERY OPTIMIZATION NEEDED
+    public OrgStatisticSet getOrgStatisticSet() {
+        OrgStatisticSet orgStatisticSet = new OrgStatisticSet();
+
+        orgStatisticSet.totalApplicationNumber = (int) orgRepository.count();
+        orgStatisticSet.approvedApplicationNumber = orgRepository.countOrganizationsByEnabledAndDeclined(true, false);
+        orgStatisticSet.orgWithCoursesNumber = 0;
+
+        List<Organization> organizationList = orgRepository.findAll();
+
+        for (Organization organization : organizationList) {
+            if (!organization.getCourses().isEmpty())
+                orgStatisticSet.orgWithCoursesNumber++;
+        }
+
+        orgStatisticSet.orgWithoutCoursesNumber = orgStatisticSet.approvedApplicationNumber - orgStatisticSet.orgWithCoursesNumber;
+
+        return orgStatisticSet;
     }
 }

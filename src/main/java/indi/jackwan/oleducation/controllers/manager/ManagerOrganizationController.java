@@ -3,6 +3,7 @@ package indi.jackwan.oleducation.controllers.manager;
 import indi.jackwan.oleducation.models.Organization;
 import indi.jackwan.oleducation.service.ManagerService;
 import indi.jackwan.oleducation.service.OrgService;
+import indi.jackwan.oleducation.utils.statistics.OrgStatisticSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ public class ManagerOrganizationController {
         model.addAttribute("manager", session.getAttribute("manager"));
         List<Organization> organizationList = orgService.getAllOrgs();
 
+        OrgStatisticSet orgStatisticSet = orgService.getOrgStatisticSet();
+
+        model.addAttribute("orgStatisticSet", orgStatisticSet);
         model.addAttribute("organizationList", organizationList);
 
         return "manager/orgs";
