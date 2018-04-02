@@ -73,6 +73,7 @@ public class ManagerService {
         }
     }
 
+    // TODO Cancelled amount.
     public double[] getFinancialStatisticData(){
         double[] result = {0,0,0,0};
 
