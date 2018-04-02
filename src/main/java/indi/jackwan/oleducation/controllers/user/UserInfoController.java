@@ -33,7 +33,7 @@ public class UserInfoController {
         return "user/personal-information";
     }
 
-    @RequestMapping(value = "/changeNickname", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/info/changeNickname", method = RequestMethod.POST)
     public String changeNickname(User user, Model model, HttpSession session, RedirectAttributes redir) {
         if(user.getNickname().equals("")) {
             redir.addFlashAttribute("errorMessage", "Nickname cannot be empty!");
@@ -46,7 +46,7 @@ public class UserInfoController {
         return "redirect:/user";
     }
 
-    @RequestMapping(value = "changePassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/info/changePassword", method = RequestMethod.POST)
     public String changePassword(User user, Model model, HttpSession session, RedirectAttributes redir) {
         User currentUser = (User) session.getAttribute("user");
         Zxcvbn passwordCheck = new Zxcvbn();

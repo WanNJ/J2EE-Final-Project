@@ -21,6 +21,21 @@ public class UserPrivilegeController {
         User old = (User) session.getAttribute("user");
         User current = userService.findById(old.getId());
         model.addAttribute("user", current);
+
+        int vipClass;
+
+        if (current.getExpenditure() < 100) {
+            vipClass = 1;
+        } else if (current.getExpenditure() < 200) {
+            vipClass = 2;
+        } else if (current.getExpenditure() < 300) {
+            vipClass = 3;
+        } else {
+            vipClass = 4;
+        }
+
+        model.addAttribute("vipClass", vipClass);
+
         return "user/privilege";
     }
 }
