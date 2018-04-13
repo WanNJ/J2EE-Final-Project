@@ -16,7 +16,7 @@ public class UserPrivilegeController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user/previlege", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/privilege", method = RequestMethod.GET)
     public String getPrivilegePage(Model model, HttpSession session, RedirectAttributes redir) {
         User old = (User) session.getAttribute("user");
         User current = userService.findById(old.getId());
